@@ -1,0 +1,269 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="anymal_c">
+
+<!-- Anymal urdf w/o sensors -->
+<xacro:include filename="$(find ocs2_robotic_assets)/resources/anymal_c/urdf/anymal.urdf" />
+
+<!-- Add state estimator -->
+<gazebo>
+  <plugin filename="libStateEstimator.so" name="StateEstimator"/>
+</gazebo>
+
+<!-- Joint control -->
+<gazebo>
+  <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+    <robotNamespace>/anymal_joint_controller</robotNamespace>
+    <robotParam>robot_description</robotParam>
+  </plugin>
+</gazebo>
+
+<!-- Gazebo materials -->
+<gazebo reference="LF_FOOT">
+  <mu1>0.85</mu1>
+  <mu2>0.85</mu2>
+  <kp value="1000000.0"/>
+  <kd value="100.0"/>
+</gazebo>
+<gazebo reference="RF_FOOT">
+  <mu1>0.85</mu1>
+  <mu2>0.85</mu2>
+  <kp value="1000000.0"/>
+  <kd value="100.0"/>
+</gazebo>
+<gazebo reference="LH_FOOT">
+  <mu1>0.85</mu1>
+  <mu2>0.85</mu2>
+  <kp value="1000000.0"/>
+  <kd value="100.0"/>
+</gazebo>
+<gazebo reference="RH_FOOT">
+  <mu1>0.85</mu1>
+  <mu2>0.85</mu2>
+  <kp value="1000000.0"/>
+  <kd value="100.0"/>
+</gazebo>
+
+<!-- Front camera -->
+<!-- Front depth camera -->
+<gazebo reference="depth_camera_front_camera">
+<sensor type="depth" name="realsense_R200">
+    <always_on>true</always_on>
+    <visualize>false</visualize>
+    <update_rate>3</update_rate>
+    <camera>
+        <horizontal_fov>2.0</horizontal_fov>
+        <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+        </image>
+        <depth_camera></depth_camera>
+        <clip>
+            <near>0.2</near>
+            <far>3</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.05</stddev>
+        </noise>
+    </camera>
+    <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+    <baseline>0.2</baseline>
+    <alwaysOn>true</alwaysOn>
+    <updateRate>0.0</updateRate>
+    <cameraName>camera</cameraName>
+    <frameName>depth_camera_front_depth_optical_frame</frameName>
+    <imageTopicName>rgb/image_raw</imageTopicName>
+    <depthImageTopicName>depth/image_raw</depthImageTopicName>
+    <pointCloudTopicName>depth/points</pointCloudTopicName>
+    <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+    <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+    <pointCloudCutoff>0.4</pointCloudCutoff>
+    <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+    <CxPrime>0.0</CxPrime>
+    <Cx>0.0</Cx>
+    <Cy>0.0</Cy>
+    <focalLength>0</focalLength>
+    <hackBaseline>0</hackBaseline>
+    </plugin>
+</sensor>
+</gazebo>
+
+<!-- Add contact sensors -->
+<gazebo reference="LF_FOOT">
+    <sensor name="lf_foot_contact" type="contact">
+    <plugin name="lf_contact_plugin" filename="libContactSensor.so"/>
+    <contact>
+        <collision>fl_lleg_fixed_joint_lump__LF_FOOT_collision_sensor_collision</collision>
+    </contact>
+    </sensor>
+</gazebo>
+
+<gazebo reference="LH_FOOT">
+    <sensor name="lh_foot_contact" type="contact">
+    <plugin name="lh_contact_plugin" filename="libContactSensor.so"/>
+    <contact>
+        <collision>hl_lleg_fixed_joint_lump__LH_FOOT_collision_sensor_collision</collision>
+    </contact>
+    </sensor>
+</gazebo>
+
+<gazebo reference="RF_FOOT">
+    <sensor name="rf_foot_contact" type="contact">
+    <plugin name="rf_contact_plugin" filename="libContactSensor.so"/>
+    <contact>
+        <collision>fr_lleg_fixed_joint_lump__RF_FOOT_collision_sensor_collision</collision>
+    </contact>
+    </sensor>
+</gazebo>
+
+<gazebo reference="RH_FOOT">
+    <sensor name="rh_foot_contact" type="contact">
+    <plugin name="rh_contact_plugin" filename="libContactSensor.so"/>
+    <contact>
+        <collision>hr_lleg_fixed_joint_lump__RH_FOOT_collision_sensor_collision</collision>
+    </contact>
+    </sensor>
+</gazebo>
+
+<!-- Transmissions -->
+<transmission name="transmission_0">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LF_HAA">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_0">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="transmission_1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LF_HFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_1">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="transmission_2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LF_KFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_2">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="transmission_3">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RF_HAA">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="transmission_4">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RF_HFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_4">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="transmission_5">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RF_KFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_5">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="transmission_6">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LH_HAA">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_6">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="transmission_7">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LH_HFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_7">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="transmission_8">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LH_KFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_8">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="transmission_9">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RH_HAA">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_9">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="transmission_10">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RH_HFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_10">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="transmission_11">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RH_KFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_11">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+</robot>

@@ -1,0 +1,5 @@
+<launch>
+  <arg name="description_name"/>
+  <arg name="urdf_file"/>
+  <param name="$(arg description_name)" command="$(find xacro)/xacro --inorder $(arg urdf_file)"/>
+</launch>

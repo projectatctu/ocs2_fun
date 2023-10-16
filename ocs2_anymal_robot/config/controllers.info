@@ -1,0 +1,40 @@
+sqpWbc
+{
+  ; Task weights
+  weightBaseTracking            1.0
+  weightSwingLeg                150.0
+  weightContactForce            0.001
+
+  ; Friction cone parameters
+  frictionCoefficient     0.5
+
+  ; Swing leg kp and kd
+  swingKp                 450.0
+  swingKd                 30.0
+
+  ; Base position kp and kd
+  baseKp                  10.0
+  baseKd                  1.0
+
+  ; Base orientation kp and kd
+  eulerKp                 5.0
+  eulerKd                 0.5
+
+  ; Joint swing leg kp and kd
+  jointSwingKp            10.0
+  jointSwingKd            15.0
+
+  ; Joint stance leg kp and kd
+  jointStanceKp            5.0
+  jointStanceKd            0.2
+
+  ; Joint torque limit
+  torqueLimit              80.0
+}
+
+standController 
+{
+  ; Joint kp and kd
+  jointKp                 300
+  jointKd                 20
+}

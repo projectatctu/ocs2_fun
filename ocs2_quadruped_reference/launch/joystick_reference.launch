@@ -1,0 +1,13 @@
+<launch>
+    <arg name="target_command_file"/>
+    <arg name="joystick_device" default="/dev/input/js0" />
+
+    <!-- Joystick node -->
+    <node name="joystick" pkg="joy" type="joy_node">
+        <param name="dev" value="$(arg joystick_device)"/>
+    </node>
+
+    <!-- Reference generator node -->
+    <node pkg="ocs2_quadruped_reference" type="joystick_reference_generator_node" name="joystick_reference_generator_node"
+          args="$(arg target_command_file)"/>
+</launch>

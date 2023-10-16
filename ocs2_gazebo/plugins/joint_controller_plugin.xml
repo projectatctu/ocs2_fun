@@ -1,0 +1,5 @@
+<library path="lib/libJointController">
+  <class name="switched_model/JointController" 
+         type="switched_model::JointController"           
+         base_class_type="controller_interface::ControllerBase" />
+</library>

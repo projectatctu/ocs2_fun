@@ -1,0 +1,9 @@
+contactSensor
+{
+    rate        400.0
+}
+
+stateEstimator
+{
+    rate        400.0
+}
