@@ -1,0 +1,109 @@
+<launch>
+    <arg name="description_name" default="robot_description"/>
+    <arg name="task_settings_file" default="$(find ocs2_spot_robot)/config/task.info"/>
+    <arg name="frame_declaration_file" default="$(find ocs2_spot_robot)/config/frame_declarations.info"/>
+    <arg name="sqp_settings_file" default="$(find ocs2_spot_robot)/config/sqp.info"/>
+    <arg name="target_command_config_file" default="$(find ocs2_spot_robot)/config/targetCommand.info"/>
+    <arg name="controller_config_file" default="$(find ocs2_spot_robot)/config/controllers.info"/>
+    <arg name="controller_ns" default="anymal_joint_controller"/>
+    <arg name="controller_args" default="joint_controller"/>
+    <arg name="plugin_info_file" default="$(find ocs2_spot_robot)/config/gazebo_plugin_info.yaml"/>
+    <arg name="urdf_file" default="$(find ocs2_spot_robot)/urdf/spot_gazebo.urdf.xacro"/>
+    <arg name="state_plugin_config_file" default="$(find ocs2_spot_robot)/config/plugins.info"/>
+
+    <!-- Reference generator arguments -->
+    <arg name="joystick_device"      default="/dev/input/js0" />
+
+    <!-- Mapping parameters -->
+    <arg name="blind" default="false"/>
+
+    <!-- Gazebo parameters -->
+    <arg name="gui" default="false"/>
+    <arg name="paused" default="false"/>
+    <arg name="world" default="normal"/>
+    <arg name="x" default="0.0"/>
+    <arg name="y" default="0.0"/>
+    <arg name="z" default="3.0"/>
+
+    <!-- RViz parameters -->
+    <arg name="rviz" default="true"/>
+
+    <!-- Set ROS parameters -->
+    <param name="description_name"   value="$(arg description_name)"/>
+    <param name="task_settings_file" value="$(arg task_settings_file)"/>
+    <param name="frame_declaration_file" value="$(arg frame_declaration_file)"/>
+    <param name="sqp_settings_file"  value="$(arg sqp_settings_file)"/>
+
+    <!-- TODO: add _file suffix -->
+    <param name="controller_config"  value="$(arg controller_config_file)"/>
+    <param name="target_command_config"  value="$(arg target_command_config_file)"/>
+    
+    <!-- Load robot description -->
+    <include file="$(find ocs2_spot_robot)/launch/load_urdf.launch">
+        <arg name="description_name"   value="$(arg description_name)"/>
+        <arg name="urdf_file"         value="$(arg urdf_file)"/>
+    </include>
+
+    <!-- Launch visualization -->
+
+    <group if="$(arg rviz)">
+      <include file="$(find ocs2_quadruped_interface)/launch/visualization.launch">
+          <arg name="description_name"   value="$(arg description_name)"/>
+      </include>
+    </group>
+
+    <!-- Launch MPC node -->
+    <node pkg="ocs2_spot_robot" type="spot_mpc_node" name="spot_mpc_node" output="screen"/>
+
+    <!-- Launch WBC node -->
+    <node pkg="ocs2_control" type="wbc_controller_node" name="wbc_controller_node" output="screen"/>
+
+    <!-- Launch gait terminal -->
+    <node pkg="ocs2_anymal_commands" type="gait_command_node" name="gait_command_node"
+          output="screen" launch-prefix="alacritty --command"/>
+
+    <!-- Launch joystick reference generator -->
+    <include file="$(find ocs2_quadruped_reference)/launch/joystick_reference.launch">
+      <arg name="joystick_device"         value="$(arg joystick_device)"/>
+      <arg name="target_command_file"     value="$(arg target_command_config_file)"/>
+    </include>
+
+    <group unless="$(arg blind)">
+        <!-- Launch convex decomposition node -->
+        <include file="$(find convex_plane_decomposition_ros)/launch/convex_plane_decomposition.launch"/>
+
+        <!-- Elevation mapping -->
+        <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen"/>
+        <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+      <remap from="~input" to="/camera/depth/points"/>
+        <remap from="~output" to="/camera/depth/points_downsampled"/>
+        <rosparam>
+            filter_field_name: z
+            filter_limit_min: 0.01
+            filter_limit_max: 4.0  <!-- Limit the range of points to forward to 6 meters in viewing direction-->
+            filter_limit_negative: False
+            leaf_size: 0.06  <!-- Limit the density to 5 cm-->
+        </rosparam>
+        </node>
+
+        <node pkg="elevation_mapping" type="elevation_mapping" name="elevation_mapping" output="screen">
+        <rosparam command="load" file="$(find ocs2_spot_robot)/config/elevation_mapping.yaml"/>
+        </node>
+    </group>
+
+     <!-- Launch gazebo -->
+    <include file="$(find ocs2_gazebo)/launch/world.launch">
+        <arg name="controllers_file" value="$(arg plugin_info_file)"/>
+        <arg name="controllers_ns" value="$(arg controller_ns)"/>
+        <arg name="controllers_args" value="$(arg controller_args)"/>
+        <arg name="plugin_info_file" value="$(arg state_plugin_config_file)"/>
+        <arg name="description_name" value="$(arg description_name)"/>
+        <arg name="description_file" value="$(arg urdf_file)"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="world" value="$(arg world)"/>
+        <arg name="x" value="$(arg x)"/>
+        <arg name="y" value="$(arg y)"/>
+        <arg name="z" value="$(arg z)"/>
+        <arg name="paused" value="$(arg paused)"/>
+    </include>
+</launch>
