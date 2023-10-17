@@ -60,7 +60,7 @@
 
     <!-- Launch gait terminal -->
     <node pkg="ocs2_anymal_commands" type="gait_command_node" name="gait_command_node"
-          output="screen" launch-prefix="alacritty --command"/>
+          output="screen" launch-prefix="gnome-terminal --"/>
 
     <!-- Launch joystick reference generator -->
     <include file="$(find ocs2_quadruped_reference)/launch/joystick_reference.launch">

@@ -18,7 +18,7 @@ sqpWbc
 
   ; Base orientation kp and kd
   eulerKp                 10.0
-  eulerKd                 5.0
+  eulerKd                 0.2
 
   ; Joint swing leg kp and kd
   jointSwingKp            10.0
