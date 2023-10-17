@@ -28,7 +28,12 @@ add_message_files(
   JointCommandArray.msg
   RobotState.msg
 )
-generate_messages()
+
+
+generate_messages(
+    DEPENDENCIES
+        std_msgs
+)
 
 catkin_package(
   INCLUDE_DIRS 
@@ -40,6 +45,7 @@ catkin_package(
     ocs2_switched_model_interface
     ocs2_anymal_commands
   DEPENDS
+    std_msgs
 )
 
 include_directories(
