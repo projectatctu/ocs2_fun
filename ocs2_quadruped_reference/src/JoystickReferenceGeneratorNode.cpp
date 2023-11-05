@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     const ocs2::scalar_t axisVel = 0.5;
     ROS_INFO_STREAM("Initializing joystick controller with topic: " << joyTopic << " and axisVel: " << axisVel);
     auto joystickCommandControllerPtr = std::unique_ptr<switched_model::CommandController>(
-        new switched_model::JoystickController(targetCommandFile, nh, joyTopic, axisVel));
+        new switched_model::JoystickCommandController(targetCommandFile, nh, joyTopic, axisVel));
 
     // Initialize reference generator
     const std::string observationTopic = "/anymal_mpc_observation";
