@@ -64,6 +64,20 @@ target_link_libraries(joystick_reference_generator_node
 )
 target_compile_options(joystick_reference_generator_node PRIVATE ${OCS2_CXX_FLAGS})
 
+
+add_executable(twist_reference_generator_node
+  src/TwistReferenceGeneratorNode.cpp
+)
+add_dependencies(twist_reference_generator_node
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries(twist_reference_generator_node
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
+target_compile_options(twist_reference_generator_node PRIVATE ${OCS2_CXX_FLAGS})
+
 #############
 ## Install ##
 #############
@@ -76,7 +90,7 @@ install(TARGETS ${PROJECT_NAME}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
   )
-install(TARGETS joystick_reference_generator_node
+install(TARGETS joystick_reference_generator_node twist_reference_generator_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY config
