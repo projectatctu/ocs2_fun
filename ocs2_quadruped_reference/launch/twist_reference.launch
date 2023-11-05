@@ -1,0 +1,7 @@
+<launch>
+    <arg name="target_command_file"/>
+
+    <!-- Reference generator node -->
+    <node pkg="ocs2_quadruped_reference" type="twist_reference_generator_node" name="twist_reference_generator_node"
+          args="$(arg target_command_file)"/>
+</launch>

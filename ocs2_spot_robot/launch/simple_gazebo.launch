@@ -10,6 +10,7 @@
     <arg name="plugin_info_file" default="$(find ocs2_spot_robot)/config/gazebo_plugin_info.yaml"/>
     <arg name="urdf_file" default="$(find ocs2_spot_robot)/urdf/spot_gazebo.urdf.xacro"/>
     <arg name="state_plugin_config_file" default="$(find ocs2_spot_robot)/config/plugins.info"/>
+    <arg name="reference_source" default="joystick"/>
 
     <!-- Reference generator arguments -->
     <arg name="joystick_device"      default="/dev/input/js0" />
@@ -62,11 +63,19 @@
     <node pkg="ocs2_anymal_commands" type="gait_command_node" name="gait_command_node"
           output="screen" launch-prefix="gnome-terminal --"/>
 
-    <!-- Launch joystick reference generator -->
-    <include file="$(find ocs2_quadruped_reference)/launch/joystick_reference.launch">
-      <arg name="joystick_device"         value="$(arg joystick_device)"/>
-      <arg name="target_command_file"     value="$(arg target_command_config_file)"/>
-    </include>
+    <!-- Launch reference generator -->
+    <group if="$(eval reference_source == 'joystick')">
+      <include file="$(find ocs2_quadruped_reference)/launch/joystick_reference.launch">
+          <arg name="joystick_device"         value="$(arg joystick_device)"/>
+          <arg name="target_command_file"     value="$(arg target_command_config_file)"/>
+      </include>
+    </group>
+
+    <group if="$(eval reference_source == 'twist')">
+      <include file="$(find ocs2_quadruped_reference)/launch/twist_reference.launch">
+          <arg name="target_command_file"     value="$(arg target_command_config_file)"/>
+      </include>
+    </group>
 
     <group unless="$(arg blind)">
         <!-- Launch convex decomposition node -->
