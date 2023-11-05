@@ -5,8 +5,10 @@
 
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
+#include <geometry_msgs/Twist.h>
 
 #include <ocs2_core/Types.h>
+#include <ocs2_core/misc/LoadData.h>
 #include <ocs2_core/reference/TargetTrajectories.h>
 #include <ocs2_msgs/mpc_observation.h>
 #include <ocs2_ros_interfaces/common/RosMsgConversions.h>
@@ -32,24 +34,61 @@ class CommandController {
     virtual VelocityCommand getVelocityCommand(scalar_t time) = 0;
 };
 
-class JoystickController : public CommandController {
+template <typename T>
+class RosCommandController : public CommandController {
    public:
-    JoystickController(const std::string &targetCommandFile, ros::NodeHandle &nh, const std::string &joyTopic, scalar_t axisVel);
-    VelocityCommand getVelocityCommand(scalar_t time) override;
+    RosCommandController(const std::string &targetCommandFile, ros::NodeHandle &nh, const std::string &topic,
+                         scalar_t axisVel)
+        : axisVel_(axisVel), velocity_x_(0.0), velocity_y_(0.0), yaw_rate_(0.0) {
+        loadSettings(targetCommandFile);
 
-   private:
-    void joystickCallback(const sensor_msgs::Joy::ConstPtr &msg);
-    void loadSettings(const std::string &targetCommandFile);
+        // Setup ROS subscriber
+        subscriber_ = nh.subscribe(topic, 1, &RosCommandController::messageCallback, this);
+    }
 
-    ros::Subscriber joystickSubscriber_;
-    scalar_t axisVel_;
+    VelocityCommand getVelocityCommand(scalar_t time) override { return {velocity_x_, velocity_y_, yaw_rate_}; }
 
+   protected:
     scalar_t velocity_x_;
     scalar_t velocity_y_;
     scalar_t yaw_rate_;
+
+    scalar_t axisVel_;
     scalar_t linearVelocity_;
     scalar_t angularVelocity_;
 
+   private:
+    virtual void messageCallback(const T &msg) = 0;
+
+    void loadSettings(const std::string &targetCommandFile) {
+        // Load COM maximum linear velocity
+        ocs2::loadData::loadCppDataType<scalar_t>(targetCommandFile, "targetDisplacementVelocity", linearVelocity_);
+
+        // Load COM maximum angular velocity
+        ocs2::loadData::loadCppDataType<scalar_t>(targetCommandFile, "targetRotationVelocity", angularVelocity_);
+    }
+
+    ros::Subscriber subscriber_;
+};
+
+class JoystickCommandController : public RosCommandController<sensor_msgs::Joy> {
+   public:
+    JoystickCommandController(const std::string &targetCommandFile, ros::NodeHandle &nh, const std::string &topic,
+                              scalar_t axisVel)
+        : RosCommandController(targetCommandFile, nh, topic, axisVel) {}
+
+   private:
+    void messageCallback(const sensor_msgs::Joy &msg) override;
+};
+
+class TwistCommandController : public RosCommandController<geometry_msgs::Twist> {
+   public:
+    TwistCommandController(const std::string &targetCommandFile, ros::NodeHandle &nh, const std::string &topic,
+                           scalar_t axisVel)
+        : RosCommandController(targetCommandFile, nh, topic, axisVel) {}
+
+   private:
+    void messageCallback(const geometry_msgs::Twist &msg) override;
 };
 
 class ReferenceGenerator {
@@ -71,7 +110,7 @@ class ReferenceGenerator {
     // ROS callbacks
     ros::Subscriber observationSubscriber_;
     void observationCallback(const ocs2_msgs::mpc_observation::ConstPtr &msg);
-    
+
     ros::Subscriber terrainSubscriber_;
     void terrainCallback(const grid_map_msgs::GridMap &msg);
 

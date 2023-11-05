@@ -2,7 +2,6 @@
 
 #include <ocs2_msgs/mpc_target_trajectories.h>
 #include "ocs2_switched_model_interface/core/SwitchedModel.h"
-#include <ocs2_core/misc/LoadData.h>
 #include <ocs2_switched_model_interface/core/Rotations.h>
 
 #include <grid_map_ros/grid_map_ros.hpp>
@@ -12,40 +11,11 @@ namespace switched_model {
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
-JoystickController::JoystickController(const std::string &targetCommandFile, ros::NodeHandle &nh,
-                                       const std::string &joyTopic, scalar_t axisVel)
-    : axisVel_(axisVel), velocity_x_(0.0), velocity_y_(0.0), yaw_rate_(0.0) {
-    // Load parameters
-    loadSettings(targetCommandFile);
-
-    // Setup ROS subscriber
-    joystickSubscriber_ = nh.subscribe(joyTopic, 1, &JoystickController::joystickCallback, this);
-}
-
-/*********************************************************************************************************************/
-/*********************************************************************************************************************/
-/*********************************************************************************************************************/
-VelocityCommand JoystickController::getVelocityCommand(scalar_t time) { return {velocity_x_, velocity_y_, yaw_rate_}; }
-
-/*********************************************************************************************************************/
-/*********************************************************************************************************************/
-/*********************************************************************************************************************/
-void JoystickController::loadSettings(const std::string &targetCommandFile) {
-    // Load COM maximum linear velocity
-    ocs2::loadData::loadCppDataType<scalar_t>(targetCommandFile, "targetDisplacementVelocity", linearVelocity_);
-
-    // Load COM maximum angular velocity
-    ocs2::loadData::loadCppDataType<scalar_t>(targetCommandFile, "targetRotationVelocity", angularVelocity_);
-}
-
-/*********************************************************************************************************************/
-/*********************************************************************************************************************/
-/*********************************************************************************************************************/
-void JoystickController::joystickCallback(const sensor_msgs::Joy::ConstPtr &msg) {
+void JoystickCommandController::messageCallback(const sensor_msgs::Joy &msg) {
     // Unpack message
-    scalar_t x_multiplier = msg->axes[1];
-    scalar_t y_multiplier = msg->axes[0];
-    scalar_t yaw_multiplier = msg->axes[3];
+    scalar_t x_multiplier = msg.axes[1];
+    scalar_t y_multiplier = msg.axes[0];
+    scalar_t yaw_multiplier = msg.axes[3];
 
     // Normalize linear velocity vector
     const scalar_t xy_size = std::sqrt(std::pow(x_multiplier, 2) + std::pow(y_multiplier, 2));
@@ -58,6 +28,15 @@ void JoystickController::joystickCallback(const sensor_msgs::Joy::ConstPtr &msg)
     velocity_x_ = x_multiplier * linearVelocity_;
     velocity_y_ = y_multiplier * linearVelocity_;
     yaw_rate_ = yaw_multiplier * angularVelocity_;
+}
+
+/*********************************************************************************************************************/
+/*********************************************************************************************************************/
+/*********************************************************************************************************************/
+void TwistCommandController::messageCallback(const geometry_msgs::Twist &msg) {
+    velocity_x_ = msg.linear.x;
+    velocity_y_ = msg.linear.y;
+    yaw_rate_ = msg.angular.z;
 }
 
 /*********************************************************************************************************************/
