@@ -116,11 +116,11 @@ def main():
     args = parse_args()
 
     if args.type == 'stairs':
-        m = generate_stairs()
+        m = generate_stairs(args)
     elif args.type == 'box':
-        m = generate_box()
+        m = generate_box(args)
     elif args.type == 'random_blocks':
-        m = generate_random_blocks()
+        m = generate_random_blocks(args)
     else:
         raise ValueError("Unknown type {}".format(args.type))
 

@@ -1,11 +1,45 @@
 input_sources:
-  ground_truth_cloud: # A name to identify the input source
+  camera_front_left: # A name to identify the input source
     type: pointcloud # Supported types: pointcloud
-    topic: /camera/depth/points_downsampled
+    topic: /camera_front_left/depth/points_downsampled
+    queue_size: 1
+    publish_on_update: false # Whether to publish the elevation map after a callback from this source.
+    sensor_processor:
+      type: perfect
+
+  camera_front_right: # A name to identify the input source
+    type: pointcloud # Supported types: pointcloud
+    topic: /camera_front_right/depth/points_downsampled
+    queue_size: 1
+    publish_on_update: false # Whether to publish the elevation map after a callback from this source.
+    sensor_processor:
+      type: perfect
+
+  camera_left: # A name to identify the input source
+    type: pointcloud # Supported types: pointcloud
+    topic: /camera_left/depth/points_downsampled
+    queue_size: 1
+    publish_on_update: false # Whether to publish the elevation map after a callback from this source.
+    sensor_processor:
+      type: perfect
+
+  camera_right: # A name to identify the input source
+    type: pointcloud # Supported types: pointcloud
+    topic: /camera_right/depth/points_downsampled
+    queue_size: 1
+    publish_on_update: false # Whether to publish the elevation map after a callback from this source.
+    sensor_processor:
+      type: perfect
+
+  camera_back:
+    type: pointcloud # Supported types: pointcloud
+    topic: /camera_back/depth/points_downsampled
     queue_size: 1
     publish_on_update: true # Whether to publish the elevation map after a callback from this source.
     sensor_processor:
       type: perfect
+
+
 map_frame_id: "world"
 robot_base_frame_id: "base"
 robot_pose_with_covariance_topic: "" # Leaving this empty skipps pose covariance updates.
