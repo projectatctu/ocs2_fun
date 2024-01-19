@@ -79,7 +79,10 @@
 
     <group unless="$(arg blind)">
         <!-- Launch convex decomposition node -->
-        <include file="$(find convex_plane_decomposition_ros)/launch/convex_plane_decomposition.launch"/>
+        <include file="$(find convex_plane_decomposition_ros)/launch/convex_plane_decomposition.launch">
+          <arg name="parameter_file" default="$(find ocs2_anymal_robot)/config/convex_plane_decomposition_parameters.yaml"/>
+          <arg name="node_parameter_file" default="$(find ocs2_anymal_robot)/config/convex_plane_decomposition_node.yaml"/>
+        </include>
 
         <!-- Elevation mapping -->
         <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen"/>
