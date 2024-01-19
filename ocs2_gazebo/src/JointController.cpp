@@ -39,15 +39,14 @@ bool JointController::init(hardware_interface::EffortJointInterface *hw, ros::No
             return false;
         }
 
-        std::pair<double, double> joint_limit;
         urdf::JointConstSharedPtr joint_urdf = urdf.getJoint(joint_name);
         if (!joint_urdf) {
             ROS_ERROR("Could not find joint '%s' in urdf", joint_name.c_str());
             return false;
         }
-        joint_limit.first = joint_urdf->limits->lower;
-        joint_limit.second = joint_urdf->limits->upper;
-        joint_limits[joint_name] = joint_limit;
+
+        double torque_limit = joint_urdf->limits->effort;
+        torque_limits[joint_name] = torque_limit;
 
         ROS_INFO_STREAM("Loaded joint controller for joint: " << joint_name);
     }
@@ -91,10 +90,12 @@ void JointController::update(const ros::Time &time, const ros::Duration &period)
         // compute torque command
         double torque = torque_ff + kp * position_error + kd * velocity_error;
 
+        // clip torque
+        const double torque_limit = torque_limits[joint_name];
+        torque = std::max(-torque_limit, std::min(torque_limit, torque));
+
         // set joint torque
         joint.setCommand(torque);
-
-        // Todo: enforce joint limits
     }
 }
 

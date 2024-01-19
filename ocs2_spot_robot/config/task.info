@@ -4,7 +4,7 @@ model_settings
   recompileLibraries            false
   robotName                     spot
 
-  analyticalInverseKinematics   false
+  analyticalInverseKinematics   true
 
   frictionCoefficient           0.5
   gripperForce                  0.0   ; [N] negative gripper force -> minimum force in normal direction
@@ -26,34 +26,34 @@ model_settings
 
 joint_lower_limits
   {
-     (0,0)  -1e30       ; LF_HAA
-     (1,0)  -1e30       ; LF_HFE
-     (2,0)  -1e30       ; LF_KFE
-     (3,0)  -1e30       ; RF_HAA
-     (4,0)  -1e30       ; RF_HFE
-     (5,0)  -1e30       ; RF_KFE
-     (6,0)  -1e30       ; LH_HAA
-     (7,0)  -1e30       ; LH_HFE
-     (8,0)  -1e30       ; LH_KFE
-     (9,0)  -1e30       ; RH_HAA
-     (10,0) -1e30       ; RH_HFE
-     (11,0) -1e30       ; RH_KFE
+     (0,0)  -0.78539816339744827899       ; LF_HAA
+     (1,0)  -0.89884456477707963539       ; LF_HFE
+     (2,0)  -2.7929       ; LF_KFE
+     (3,0)  -0.78539816339744827899       ; RF_HAA
+     (4,0)  -0.89884456477707963539       ; RF_HFE
+     (5,0)  -2.7929       ; RF_KFE
+     (6,0)  -0.78539816339744827899       ; LH_HAA
+     (7,0)  -0.89884456477707963539       ; LH_HFE
+     (8,0)  -2.7929       ; LH_KFE
+     (9,0)  -0.78539816339744827899       ; RH_HAA
+     (10,0) -0.89884456477707963539       ; RH_HFE
+     (11,0) -2.7929       ; RH_KFE
   }
 
   joint_upper_limits
   {
-     (0,0)   1e30       ; LF_HAA
-     (1,0)   1e30       ; LF_HFE
-     (2,0)   1e30       ; LF_KFE
-     (3,0)   1e30       ; RF_HAA
-     (4,0)   1e30       ; RF_HFE
-     (5,0)   1e30       ; RF_KFE
-     (6,0)   1e30       ; LH_HAA
-     (7,0)   1e30       ; LH_HFE
-     (8,0)   1e30       ; LH_KFE
-     (9,0)   1e30       ; RH_HAA
-     (10,0)  1e30       ; RH_HFE
-     (11,0)  1e30       ; RH_KFE
+     (0,0)   0.78539816339744827899       ; LF_HAA
+     (1,0)   2.2951079663725435509       ; LF_HFE
+     (2,0)   -0.254402       ; LF_KFE
+     (3,0)   0.78539816339744827899       ; RF_HAA
+     (4,0)   2.2951079663725435509       ; RF_HFE
+     (5,0)   -0.254402       ; RF_KFE
+     (6,0)   0.78539816339744827899       ; LH_HAA
+     (7,0)   2.2951079663725435509       ; LH_HFE
+     (8,0)   -0.254402       ; LH_KFE
+     (9,0)   0.78539816339744827899       ; RH_HAA
+     (10,0)  2.2951079663725435509       ; RH_HFE
+     (11,0)  -0.254402       ; RH_KFE
   }
 
   joint_velocity_limits
@@ -94,7 +94,7 @@ joint_lower_limits
     touchDownVelocity            -0.4
     swingHeight                   0.08
     touchdownAfterHorizon         0.2
-    errorGain                     5.0
+    errorGain                     20.0
     swingTimeScale                0.15
     sdfMidswingMargin             0.005
     terrainMargin                 0.0
@@ -193,7 +193,7 @@ mpc
 
   debugPrint                      false
 
-  mpcDesiredFrequency             20  ; [Hz]
+  mpcDesiredFrequency             30  ; [Hz]
   mrtDesiredFrequency             400 ; [Hz]
 }
 
