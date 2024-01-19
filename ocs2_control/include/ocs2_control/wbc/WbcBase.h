@@ -83,9 +83,6 @@ class WbcBase {
     contact_flag_t contactFlags_;
     size_t nContacts_;
 
-    /* Measured contact flags*/
-    contact_flag_t contactFlagsCurrent_;
-
    private:
     void loadSettings(const std::string &configFile);
     void generateFrictionConeMatrix(const scalar_t mu);

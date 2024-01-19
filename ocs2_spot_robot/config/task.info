@@ -26,34 +26,34 @@ model_settings
 
 joint_lower_limits
   {
-     (0,0)  -1e30       ; LF_HAA
-     (1,0)  -1e30       ; LF_HFE
-     (2,0)  -1e30       ; LF_KFE
-     (3,0)  -1e30       ; RF_HAA
-     (4,0)  -1e30       ; RF_HFE
-     (5,0)  -1e30       ; RF_KFE
-     (6,0)  -1e30       ; LH_HAA
-     (7,0)  -1e30       ; LH_HFE
-     (8,0)  -1e30       ; LH_KFE
-     (9,0)  -1e30       ; RH_HAA
-     (10,0) -1e30       ; RH_HFE
-     (11,0) -1e30       ; RH_KFE
+     (0,0)  -0.78539816339744827899       ; LF_HAA
+     (1,0)  -0.89884456477707963539       ; LF_HFE
+     (2,0)  -2.7929       ; LF_KFE
+     (3,0)  -0.78539816339744827899       ; RF_HAA
+     (4,0)  -0.89884456477707963539       ; RF_HFE
+     (5,0)  -2.7929       ; RF_KFE
+     (6,0)  -0.78539816339744827899       ; LH_HAA
+     (7,0)  -0.89884456477707963539       ; LH_HFE
+     (8,0)  -2.7929       ; LH_KFE
+     (9,0)  -0.78539816339744827899       ; RH_HAA
+     (10,0) -0.89884456477707963539       ; RH_HFE
+     (11,0) -2.7929       ; RH_KFE
   }
 
   joint_upper_limits
   {
-     (0,0)   1e30       ; LF_HAA
-     (1,0)   1e30       ; LF_HFE
-     (2,0)   1e30       ; LF_KFE
-     (3,0)   1e30       ; RF_HAA
-     (4,0)   1e30       ; RF_HFE
-     (5,0)   1e30       ; RF_KFE
-     (6,0)   1e30       ; LH_HAA
-     (7,0)   1e30       ; LH_HFE
-     (8,0)   1e30       ; LH_KFE
-     (9,0)   1e30       ; RH_HAA
-     (10,0)  1e30       ; RH_HFE
-     (11,0)  1e30       ; RH_KFE
+     (0,0)   0.78539816339744827899       ; LF_HAA
+     (1,0)   2.2951079663725435509       ; LF_HFE
+     (2,0)   -0.254402       ; LF_KFE
+     (3,0)   0.78539816339744827899       ; RF_HAA
+     (4,0)   2.2951079663725435509       ; RF_HFE
+     (5,0)   -0.254402       ; RF_KFE
+     (6,0)   0.78539816339744827899       ; LH_HAA
+     (7,0)   2.2951079663725435509       ; LH_HFE
+     (8,0)   -0.254402       ; LH_KFE
+     (9,0)   0.78539816339744827899       ; RH_HAA
+     (10,0)  2.2951079663725435509       ; RH_HFE
+     (11,0)  -0.254402       ; RH_KFE
   }
 
   joint_velocity_limits
@@ -94,7 +94,7 @@ joint_lower_limits
     touchDownVelocity            -0.4
     swingHeight                   0.08
     touchdownAfterHorizon         0.2
-    errorGain                     5.0
+    errorGain                     20.0
     swingTimeScale                0.15
     sdfMidswingMargin             0.005
     terrainMargin                 0.0
@@ -255,15 +255,15 @@ tracking_cost_weights
     joint_position_HAA       2.0;
     joint_position_HFE       2.0;
     joint_position_KFE       1.0;
-    foot_position_x         150.0;
-    foot_position_y         150.0;
-    foot_position_z         150.0;
+    foot_position_x         900.0;
+    foot_position_y         900.0;
+    foot_position_z         900.0;
     joint_velocity_HAA      0.02;
     joint_velocity_HFE      0.02;
     joint_velocity_KFE      0.01;
-    foot_velocity_x         30.0;
-    foot_velocity_y         30.0;
-    foot_velocity_z         30.0;
+    foot_velocity_x         60.0;
+    foot_velocity_y         60.0;
+    foot_velocity_z         60.0;
     contact_force_x        0.001;
     contact_force_y        0.001;
     contact_force_z        0.001;

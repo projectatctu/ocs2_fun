@@ -37,7 +37,7 @@ class JointController : public controller_interface::Controller<hardware_interfa
     std::unordered_map<std::string, hardware_interface::JointHandle> joint_map;
 
     // joint_name -> joint_limits map
-    std::unordered_map<std::string, std::pair<double, double>> joint_limits;
+    std::unordered_map<std::string, double> torque_limits;
 
     // command message realtime buffer
     typedef ocs2_gazebo::JointCommandArray BufferType;

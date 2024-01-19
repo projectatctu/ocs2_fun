@@ -111,9 +111,6 @@ Task WbcBase::createStanceFootNoMotionTask() {
         if (contactFlags_[i]) {
             A.block(3 * Ai, 0, 3, nGeneralizedCoordinates_) = Jcontact_.block(3 * i, 0, 3, nGeneralizedCoordinates_);
             b.segment<3>(3 * Ai) = -dJcontactdt_.block(3 * i, 0, 3, nGeneralizedCoordinates_) * vMeasured_;
-            if (!contactFlagsCurrent_[i]) {
-                b.segment<3>(3 * Ai) += (vector3_t() << 0.0, 0.0, -9.5).finished();
-            }
             ++Ai;
         }
     }
@@ -382,9 +379,6 @@ void WbcBase::updateContactFlags(const size_t modeCurrent, const size_t modeDesi
     // Desired contact flags
     contactFlags_ = switched_model::modeNumber2StanceLeg(modeDesired);
     nContacts_ = std::accumulate(contactFlags_.begin(), contactFlags_.end(), 0);
-
-    // Current contact flags
-    contactFlagsCurrent_ = switched_model::modeNumber2StanceLeg(modeCurrent);
 }
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
