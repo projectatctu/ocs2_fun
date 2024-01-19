@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-import sys
-sys.path.append("/opt/ros/noetic/lib/python3/dist-packages")
 
 import cv2
 from cv_bridge import CvBridge
@@ -90,15 +88,6 @@ class DepthCamera_img:
         return rz
 
     def front_right_orientation(self,x,y,z,w):
-        """x = -0.631
-        y = -0.037
-        z = 0.316
-        w = 0.707
-        x = 0.631
-        y = 0.037
-        z = -0.316
-        w = 0.707
-        #w *= np.pi"""
         omega = np.array([
             [0, -z, y],
             [z, 0, -x],
@@ -109,11 +98,6 @@ class DepthCamera_img:
         return R
 
     def front_left_orientation(self,x,y,z,w):
-        """x = 0.63156
-        y = -0.0323
-        z = -0.31694
-        w = 0.71029
-        #w *= np.pi"""
         omega = np.array([
             [0, -z, y],
             [z, 0, -x],
@@ -150,7 +134,6 @@ class DepthCamera_img:
     def rot_quaternions(self, rot):
         theta = 2*np.arccos(rot[3])
         R_exp = self.exp(theta*np.array(rot[:3])/np.sqrt(np.sum(np.array(rot[:3])**2)))
-        print(R_exp)
         return R_exp
 
     def surface_transform(self, points,transl):
@@ -243,7 +226,7 @@ class DepthCamera_img:
                 cloud_points_left = list(point_cloud2.read_points(cloud_left, skip_nans=True, field_names=("x", "y", "z")))
                 cloud_points_back = list(point_cloud2.read_points(cloud_back, skip_nans=True, field_names=("x", "y", "z")))
 
-                ax = fig.add_subplot(1,2,1,projection='3d')
+                ax = fig.add_subplot(2,3,1,projection='3d')
                 points_array_front_right = np.array(cloud_points_front_right)
                 points_array_front_left = np.array(cloud_points_front_left)
                 points_array_right = np.array(cloud_points_right)
@@ -252,42 +235,44 @@ class DepthCamera_img:
 
                 points_array_front_right = points_array_front_right.dot(R_front_right.T)
                 points_array_front_left = points_array_front_left.dot(R_front_left.T)
-                #points_array_right = points_array_right.dot(R_right)
-                #points_array_left = points_array_left.dot(R_left)
-                #points_array_back = points_array_back.dot(R_back)
-                #points_array_back = self.surface_transform(points_array_back,trans_b)
-                #self.surface_transform(points_array_back)
+                points_array_right = points_array_right.dot(R_right)
+                points_array_left = points_array_left.dot(R_left)
+                points_array_back = points_array_back.dot(R_back)
+                points_array_back = self.surface_transform(points_array_back,trans_b)
 
                 ax.scatter(points_array_front_left[:, 0], points_array_front_left[:, 1], points_array_front_left[:, 2])
                 ax.set_xlabel('X')
                 ax.set_ylabel('Y')
                 ax.set_zlabel('Z')
                 ax.set_title('Front left camera')
-                ax = fig.add_subplot(1, 2, 2, projection='3d')
+
+                ax = fig.add_subplot(2, 3, 2, projection='3d')
                 ax.scatter(points_array_front_right[:, 0], points_array_front_right[:, 1], points_array_front_right[:,2])
                 ax.set_xlabel('X')
                 ax.set_ylabel('Y')
                 ax.set_zlabel('Z')
                 ax.set_title('Front right camera')
 
-                """ax = fig.add_subplot(2, 3, 3, projection='3d')
+                ax = fig.add_subplot(2, 3, 3, projection='3d')
                 ax.scatter(points_array_right[:, 0], points_array_right[:, 1], points_array_right[:, 2])
                 ax.set_xlabel('X')
                 ax.set_ylabel('Y')
                 ax.set_zlabel('Z')
                 ax.set_title('Right camera')
+
                 ax = fig.add_subplot(2, 3, 4, projection='3d')
                 ax.scatter(points_array_left[:, 0], points_array_left[:, 1], points_array_left[:, 2])
                 ax.set_xlabel('X')
                 ax.set_ylabel('Y')
                 ax.set_zlabel('Z')
                 ax.set_title('Left camera')
+
                 ax = fig.add_subplot(2, 3, 5, projection='3d')
                 ax.scatter(points_array_back[:, 0], points_array_back[:, 1], points_array_back[:, 2])
                 ax.set_xlabel('X')
                 ax.set_ylabel('Y')
                 ax.set_zlabel('Z')
-                ax.set_title('Back camera')"""
+                ax.set_title('Back camera')
                 plt.show(block=False)
                 plt.show()
                 plt.waitkey()

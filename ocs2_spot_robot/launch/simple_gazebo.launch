@@ -97,6 +97,63 @@
             leaf_size: 0.06  <!-- Limit the density to 5 cm-->
         </rosparam>
         </node>
+        <node pkg="nodelet" type="nodelet" name="voxel_grid1" args="load pcl/VoxelGrid pcl_manager" output="screen">
+      <remap from="~input" to="/camera_front_right/depth/points"/>
+        <remap from="~output" to="/camera_front_right/depth/points_downsampled"/>
+        <rosparam>
+            filter_field_name: z
+            filter_limit_min: 0.01
+            filter_limit_max: 4.0  <!-- Limit the range of points to forward to 6 meters in viewing direction-->
+            filter_limit_negative: False
+            leaf_size: 0.06  <!-- Limit the density to 5 cm-->
+        </rosparam>
+        </node>
+        <node pkg="nodelet" type="nodelet" name="voxel_grid2" args="load pcl/VoxelGrid pcl_manager" output="screen">
+      <remap from="~input" to="/camera_front_left/depth/points"/>
+        <remap from="~output" to="/camera_front_left/depth/points_downsampled"/>
+        <rosparam>
+            filter_field_name: z
+            filter_limit_min: 0.01
+            filter_limit_max: 4.0  <!-- Limit the range of points to forward to 6 meters in viewing direction-->
+            filter_limit_negative: False
+            leaf_size: 0.06  <!-- Limit the density to 5 cm-->
+        </rosparam>
+        </node>
+        <node pkg="nodelet" type="nodelet" name="voxel_grid3" args="load pcl/VoxelGrid pcl_manager" output="screen">
+      <remap from="~input" to="/camera_right/depth/points"/>
+        <remap from="~output" to="/camera_right/depth/points_downsampled"/>
+        <rosparam>
+            filter_field_name: z
+            filter_limit_min: 0.01
+            filter_limit_max: 4.0  <!-- Limit the range of points to forward to 6 meters in viewing direction-->
+            filter_limit_negative: False
+            leaf_size: 0.06  <!-- Limit the density to 5 cm-->
+        </rosparam>
+        </node>
+        <node pkg="nodelet" type="nodelet" name="voxel_grid4" args="load pcl/VoxelGrid pcl_manager" output="screen">
+      <remap from="~input" to="/camera_left/depth/points"/>
+        <remap from="~output" to="/camera_left/depth/points_downsampled"/>
+        <rosparam>
+            filter_field_name: z
+            filter_limit_min: 0.01
+            filter_limit_max: 4.0  <!-- Limit the range of points to forward to 6 meters in viewing direction-->
+            filter_limit_negative: False
+            leaf_size: 0.06  <!-- Limit the density to 5 cm-->
+        </rosparam>
+        </node>
+
+        <node pkg="nodelet" type="nodelet" name="voxel_grid5" args="load pcl/VoxelGrid pcl_manager" output="screen">
+      <remap from="~input" to="/camera_back/depth/points"/>
+         <remap from="~output" to="/camera_back/depth/points_downsampled"/>
+        <rosparam>
+            filter_field_name: z
+            filter_limit_min: 0.01
+            filter_limit_max: 4.0  <!-- Limit the range of points to forward to 6 meters in viewing direction-->
+            filter_limit_negative: False
+            leaf_size: 0.06  <!-- Limit the density to 5 cm-->
+        </rosparam>
+        </node>
+
 
         <node pkg="elevation_mapping" type="elevation_mapping" name="elevation_mapping" output="screen">
         <rosparam command="load" file="$(find ocs2_spot_robot)/config/elevation_mapping.yaml"/>

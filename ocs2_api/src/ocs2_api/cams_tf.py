@@ -48,12 +48,6 @@ class cams_tf:
             # Camera pose back
             back_cam_xyz = [-0.425, 0, 0.01]
             back_cam_rpy = [0, 0.3, -3.141592653589793]
-            camera_x = 1.0  # Replace with actual camera position X
-            camera_y = 2.0  # Replace with actual camera position Y
-            camera_z = 3.0  # Replace with actual camera position Z
-            camera_roll = 0.1  # Replace with actual camera roll
-            camera_pitch = 0.2  # Replace with actual camera pitch
-            camera_yaw = 0.3  # Replace with actual camera yaw
 
             # Spot pose
             spot_x = self.curr_orientation_x
@@ -108,7 +102,6 @@ class cams_tf:
             quat_b = tf.transformations.quaternion_multiply(spot_quat, quat_b)
 
             # Broadcast the transformation
-            print(quat_fr)
             tf_cams_broadcaster.sendTransform(translation_fr, quat_fr,
                                          rospy.Time.now(), "front_right_camera_frame", "world")
             tf_cams_broadcaster.sendTransform(translation_fl, quat_fl,
@@ -119,11 +112,6 @@ class cams_tf:
                                          rospy.Time.now(), "left_camera_frame", "world")
             tf_cams_broadcaster.sendTransform(translation_b, quat_b,
                                          rospy.Time.now(), "back_camera_frame", "world")
-            #print(tf_cams_broadcaster)
-            print("sent")
-            #tf_cams_publisher.publish(tf_cams_broadcaster)
-
-
             rate.sleep()
 
 

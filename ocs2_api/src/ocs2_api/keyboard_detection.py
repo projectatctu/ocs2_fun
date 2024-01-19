@@ -5,18 +5,30 @@ sys.path.append("/opt/ros/noetic/lib/python3/dist-packages")
 import keyboard
 import rospy
 from geometry_msgs.msg import Twist
+from std_msgs.msg import String
 
 
 def keyboard_detection():
-    #print("for quit press q")
-    #end = False
     twist_pub = rospy.Publisher('twist_cmd', Twist, queue_size=10)
+    string_pub = rospy.Publisher('keyboard_det', String, queue_size=10)
     rospy.init_node('keyboard_detection')
     rate = rospy.Rate(10)
     last_move = [0,0,0]  #x,y,phi(z)
     while not rospy.is_shutdown():
         move = Twist()
-        #print("sending_msg")
+        string = String()
+
+
+        if keyboard.is_pressed('h'):
+            string.data = 'Tomáš'
+            #print(string.data)
+            string_pub.publish(string)
+        if keyboard.is_pressed('j'):
+            string.data = 'Kuba'
+            string_pub.publish(string)
+        if keyboard.is_pressed('k'):
+            string.data = 'Spot'
+            string_pub.publish(string)
 
         if (keyboard.is_pressed("up") and keyboard.is_pressed("down") or
             keyboard.is_pressed("right") and keyboard.is_pressed("left") or
@@ -35,6 +47,7 @@ def keyboard_detection():
         if keyboard.is_pressed("left"):
             y_velocity = acceleratrion(last_move, axis=1, direction=1)
             last_move[1] = y_velocity
+
             #move.linear.y = 0.5
         if keyboard.is_pressed("right"):
             y_velocity = acceleratrion(last_move, axis=1, direction=-1)
@@ -52,37 +65,15 @@ def keyboard_detection():
 
         if not keyboard.is_pressed("up") and not keyboard.is_pressed("down"):
             stopping(last_move, axis=0)
-            """if last_move[0] > 0:
-                last_move[0] -= 0.1
-                if last_move[0] < 0:
-                    last_move[0] = 0
-            if last_move[0] < 0:
-                last_move[0] += 0.1
-                if last_move[0] > 0:
-                    last_move[0] = 0"""
+
         if not keyboard.is_pressed("right") and not keyboard.is_pressed("left"):
             stopping(last_move, axis=1)
-            """if last_move[1] > 0:
-                last_move[1] -= 0.1
-                if last_move[1] < 0:
-                    last_move[1] = 0
-            if last_move[1] < 0:
-                last_move[1] += 0.1
-                if last_move[1] > 0:
-                    last_move[1] = 0"""
+
         if not keyboard.is_pressed("d") and not keyboard.is_pressed("a"):
             stopping(last_move, axis=2)
-            """if last_move[2] > 0:
-                last_move[2] -= 0.1
-                if last_move[2] < 0:
-                    last_move[2] = 0
-            if last_move[2] < 0:
-                last_move[2] += 0.1
-                if last_move[2] > 0:
-                    last_move[2] = 0"""
         move.linear.x, move.linear.y, move.angular.z = last_move
-
         twist_pub.publish(move)
+        #print(data)
         rate.sleep()
 
 def acceleratrion(last_move, axis, direction):
