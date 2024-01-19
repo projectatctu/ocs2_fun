@@ -193,7 +193,7 @@ mpc
 
   debugPrint                      false
 
-  mpcDesiredFrequency             20  ; [Hz]
+  mpcDesiredFrequency             30  ; [Hz]
   mrtDesiredFrequency             400 ; [Hz]
 }
 

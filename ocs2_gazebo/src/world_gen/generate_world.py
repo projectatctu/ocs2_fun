@@ -22,7 +22,7 @@ def parse_args():
 
 def generate_stairs():
     STEPS = 10
-    STEP_HEIGHT = 0.20
+    STEP_HEIGHT = 0.13
     STEP_WIDTH = 5.7
     STEP_DEPTH = 0.30
 
@@ -51,7 +51,7 @@ def generate_box():
 
 
 def generate_random_blocks():
-    BLOCK_HEIGHT = 0.2
+    BLOCK_HEIGHT = 0.4
     BLOCK_DEPTH = 0.5
     BLOCK_WIDTH = 0.5
     BLOCKS = 60
@@ -60,7 +60,7 @@ def generate_random_blocks():
 
     m = MapGenerator()
 
-    floor = Box("floor", *[0, 0, -0.2], *[7, 7, 0.2], visualize=False)
+    floor = Box("floor", *[0, 0, -0.1], *[7, 7, 0.2], visualize=False)
     
     for i in range(BLOCKS):
         x = random.uniform(0, 3)
