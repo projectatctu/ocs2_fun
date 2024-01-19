@@ -9,8 +9,8 @@ sqpWbc
   frictionCoefficient     0.5
 
   ; Swing leg kp and kd
-  swingKp                 20.0
-  swingKd                 5.0
+  swingKp                 100.0
+  swingKd                 0.0
 
   ; Base position kp and kd
   baseKp                  5.0
