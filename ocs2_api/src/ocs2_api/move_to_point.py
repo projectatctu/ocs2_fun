@@ -6,8 +6,6 @@ import rospy
 from geometry_msgs.msg import PointStamped
 from gazebo_msgs.msg import ModelStates
 from geometry_msgs.msg import Twist
-import get_new_point
-import get_curr_point
 import numpy as np
 
 class MoveToPoint:
