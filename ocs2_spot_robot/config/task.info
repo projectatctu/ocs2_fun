@@ -4,7 +4,7 @@ model_settings
   recompileLibraries            false
   robotName                     spot
 
-  analyticalInverseKinematics   false
+  analyticalInverseKinematics   true
 
   frictionCoefficient           0.5
   gripperForce                  0.0   ; [N] negative gripper force -> minimum force in normal direction
@@ -255,15 +255,15 @@ tracking_cost_weights
     joint_position_HAA       2.0;
     joint_position_HFE       2.0;
     joint_position_KFE       1.0;
-    foot_position_x         900.0;
-    foot_position_y         900.0;
-    foot_position_z         900.0;
+    foot_position_x         150.0;
+    foot_position_y         150.0;
+    foot_position_z         150.0;
     joint_velocity_HAA      0.02;
     joint_velocity_HFE      0.02;
     joint_velocity_KFE      0.01;
-    foot_velocity_x         60.0;
-    foot_velocity_y         60.0;
-    foot_velocity_z         60.0;
+    foot_velocity_x         30.0;
+    foot_velocity_y         30.0;
+    foot_velocity_z         30.0;
     contact_force_x        0.001;
     contact_force_y        0.001;
     contact_force_z        0.001;

@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     nodeHandle.getParam("/sqp_settings_file", sqpSettingsFile);
 
     auto spotInterface =
-        anymal::getAnymalInterface(urdfString, switched_model::loadQuadrupedSettings(taskSettingsFile),
+        anymal::getSpotInterface(urdfString, switched_model::loadQuadrupedSettings(taskSettingsFile),
                                    anymal::frameDeclarationFromFile(frameDeclarationFile));
     const auto mpcSettings = ocs2::mpc::loadSettings(taskSettingsFile);
 
