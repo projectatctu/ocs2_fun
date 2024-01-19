@@ -43,5 +43,9 @@ catkin config -DCMAKE_BUILD_TYPE=Release
 
 # Build
 catkin build
+```
 
-``````
+# Worldgen
+```bash
+rosrun ocs2_gazebo world generate_world.py
+```

@@ -36,16 +36,30 @@ def parse_args():
     
     # Box
     parser.add_argument(
-        "--box_width", type=float, default=3.0, help="Width of box"
+        "--box_size", type=float, default=0.35, help="Width of box"
+    )
+    
+    # Random blocks
+    parser.add_argument(
+        "--blocks", type=int, default=60, help="Number of blocks"
+    )
+    parser.add_argument(
+        "--block_height", type=float, default=0.4, help="Height of each block"
+    )
+    parser.add_argument(
+        "--block_width", type=float, default=0.5, help="Width of each block"
+    )
+    parser.add_argument(
+        "--block_depth", type=float, default=0.5, help="Depth of each block"
     )
 
     return parser.parse_args()
 
-def generate_stairs():
-    STEPS = 10
-    STEP_HEIGHT = 0.13
-    STEP_WIDTH = 5.7
-    STEP_DEPTH = 0.30
+def generate_stairs(params):
+    STEPS = params.steps
+    STEP_HEIGHT = params.step_height
+    STEP_WIDTH = params.step_width
+    STEP_DEPTH = params.step_depth
 
     # Generate stairs
     m = MapGenerator()
@@ -62,8 +76,8 @@ def generate_stairs():
     return m
 
 
-def generate_box():
-    BOX_SIZE = 0.2
+def generate_box(params):
+    BOX_SIZE = params.box_size
     m = MapGenerator()
     floor = Box("floor", *[0, 0, -0.1], *[5, 5, 0.2], visualize=False)
     box = Box("box", *[1, 0, BOX_SIZE/2], *[3.0, 3.0, BOX_SIZE])
@@ -72,11 +86,11 @@ def generate_box():
     return m
 
 
-def generate_random_blocks():
-    BLOCK_HEIGHT = 0.4
-    BLOCK_DEPTH = 0.5
-    BLOCK_WIDTH = 0.5
-    BLOCKS = 60
+def generate_random_blocks(params):
+    BLOCK_HEIGHT = params.block_height
+    BLOCK_DEPTH = params.block_depth
+    BLOCK_WIDTH = params.block_width
+    BLOCKS = params.blocks
 
     import random
 
