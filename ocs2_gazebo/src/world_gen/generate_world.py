@@ -17,6 +17,27 @@ def parse_args():
     parser.add_argument(
         "--type", type=str, default="stairs", choices=['box', 'stairs', 'random_blocks'], help="Type of world to generate"
     )
+    
+    # World specific arguments
+    
+    # Stairs
+    parser.add_argument(
+        "--steps", type=int, default=10, help="Number of steps"
+    )
+    parser.add_argument(
+        "--step_height", type=float, default=0.13, help="Height of each step"
+    )
+    parser.add_argument(
+        "--step_width", type=float, default=5.7, help="Width of each step"
+    )
+    parser.add_argument(
+        "--step_depth", type=float, default=0.30, help="Depth of each step"
+    )
+    
+    # Box
+    parser.add_argument(
+        "--box_width", type=float, default=3.0, help="Width of box"
+    )
 
     return parser.parse_args()
 
@@ -42,9 +63,10 @@ def generate_stairs():
 
 
 def generate_box():
+    BOX_SIZE = 0.2
     m = MapGenerator()
     floor = Box("floor", *[0, 0, -0.1], *[5, 5, 0.2], visualize=False)
-    box = Box("box", *[1, 0, 0.20/2], *[3.0, 3.0, 0.20])
+    box = Box("box", *[1, 0, BOX_SIZE/2], *[3.0, 3.0, BOX_SIZE])
     m.add_shape(floor)
     m.add_shape(box)
     return m
