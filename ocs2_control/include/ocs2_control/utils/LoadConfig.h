@@ -4,6 +4,6 @@
 
 namespace switched_model {
 
-ocs2::vector_t getDefaultJointPosition(const std::string &configFile);
+ocs2::vector_t getDefaultJointPosition(const std::string &configFile, const std::string &prefix);
 
 }  // namespace switched_model

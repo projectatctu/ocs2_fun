@@ -43,6 +43,10 @@ add_library(${PROJECT_NAME}
     src/wbc/WbcBase.cpp
     src/simple/StandController.cpp
     src/utils/LoadConfig.cpp
+    src/StaticController.cpp
+    src/StateSubscriber.cpp
+    src/CentralController.cpp
+    src/WbcController.cpp
 )
 target_link_libraries(${PROJECT_NAME}
     ${catkin_LIBRARIES}
@@ -50,6 +54,6 @@ target_link_libraries(${PROJECT_NAME}
 )
 target_compile_options(${PROJECT_NAME} PUBLIC ${OCS2_CXX_FLAGS})
 
-add_executable(wbc_controller_node src/AnymalControllerNode.cpp)
+add_executable(wbc_controller_node src/ControllerNode.cpp)
 target_link_libraries(wbc_controller_node ${catkin_LIBRARIES} ${PROJECT_NAME})
 target_compile_options(wbc_controller_node PRIVATE ${OCS2_CXX_FLAGS})

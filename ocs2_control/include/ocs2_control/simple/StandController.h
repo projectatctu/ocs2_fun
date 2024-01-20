@@ -12,7 +12,7 @@ class StandController {
    public:
     StandController(const std::string &controllerConfigFile, const std::string &configFile,
                     const std::vector<std::string> &jointNames);
-    ocs2_gazebo::JointCommandArray getCommandMessage();
+    ocs2_gazebo::JointCommandArray getCommandMessage(const ocs2::vector_t &currentState);
     const ocs2::vector_t &getDefaultJointState() const { return defaultJointState_; }
 
    private:

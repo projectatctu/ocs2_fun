@@ -25,8 +25,8 @@ sqpWbc
   jointSwingKd            15.0
 
   ; Joint stance leg kp and kd
-  jointStanceKp            5.0
-  jointStanceKd            0.2
+  jointStanceKp            50.0
+  jointStanceKd            5.2
 
   ; Joint torque limit
   torqueLimit              80.0
