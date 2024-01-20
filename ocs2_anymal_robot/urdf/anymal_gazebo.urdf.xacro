@@ -96,6 +96,165 @@
 </sensor>
 </gazebo>
 
+<!-- Back camera -->
+<!-- Back depth camera -->
+<gazebo reference="depth_camera_rear_camera">
+<sensor type="depth" name="realsense_R200">
+    <always_on>true</always_on>
+    <visualize>false</visualize>
+    <update_rate>3</update_rate>
+    <camera>
+        <horizontal_fov>2.0</horizontal_fov>
+        <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+        </image>
+        <depth_camera></depth_camera>
+        <clip>
+            <near>0.2</near>
+            <far>3</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.05</stddev>
+        </noise>
+    </camera>
+    <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+    <baseline>0.2</baseline>
+    <alwaysOn>true</alwaysOn>
+    <updateRate>0.0</updateRate>
+    <cameraName>rear_camera</cameraName>
+    <frameName>depth_camera_rear_depth_optical_frame</frameName>
+    <imageTopicName>rgb/image_raw</imageTopicName>
+    <depthImageTopicName>depth/image_raw</depthImageTopicName>
+    <pointCloudTopicName>depth/points</pointCloudTopicName>
+    <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+    <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+    <pointCloudCutoff>0.4</pointCloudCutoff>
+    <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+    <CxPrime>0.0</CxPrime>
+    <Cx>0.0</Cx>
+    <Cy>0.0</Cy>
+    <focalLength>0</focalLength>
+    <hackBaseline>0</hackBaseline>
+    </plugin>
+</sensor>
+</gazebo>
+
+<!-- Left camera -->
+<!-- Left depth camera -->
+<gazebo reference="depth_camera_left_camera">
+<sensor type="depth" name="realsense_R200">
+    <always_on>true</always_on>
+    <visualize>false</visualize>
+    <update_rate>3</update_rate>
+    <camera>
+        <horizontal_fov>2.0</horizontal_fov>
+        <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+        </image>
+        <depth_camera></depth_camera>
+        <clip>
+            <near>0.2</near>
+            <far>3</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.05</stddev>
+        </noise>
+    </camera>
+    <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+    <baseline>0.2</baseline>
+    <alwaysOn>true</alwaysOn>
+    <updateRate>0.0</updateRate>
+    <cameraName>left_camera</cameraName>
+    <frameName>depth_camera_left_depth_optical_frame</frameName>
+    <imageTopicName>rgb/image_raw</imageTopicName>
+    <depthImageTopicName>depth/image_raw</depthImageTopicName>
+    <pointCloudTopicName>depth/points</pointCloudTopicName>
+    <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+    <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+    <pointCloudCutoff>0.4</pointCloudCutoff>
+    <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+    <CxPrime>0.0</CxPrime>
+    <Cx>0.0</Cx>
+    <Cy>0.0</Cy>
+    <focalLength>0</focalLength>
+    <hackBaseline>0</hackBaseline>
+    </plugin>
+</sensor>
+</gazebo>
+
+<!-- Right camera -->
+<!-- Right depth camera -->
+<gazebo reference="depth_camera_right_camera">
+<sensor type="depth" name="realsense_R200">
+    <always_on>true</always_on>
+    <visualize>false</visualize>
+    <update_rate>3</update_rate>
+    <camera>
+        <horizontal_fov>2.0</horizontal_fov>
+        <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+        </image>
+        <depth_camera></depth_camera>
+        <clip>
+            <near>0.2</near>
+            <far>3</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.05</stddev>
+        </noise>
+    </camera>
+    <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+    <baseline>0.2</baseline>
+    <alwaysOn>true</alwaysOn>
+    <updateRate>0.0</updateRate>
+    <cameraName>right_camera</cameraName>
+    <frameName>depth_camera_right_depth_optical_frame</frameName>
+    <imageTopicName>rgb/image_raw</imageTopicName>
+    <depthImageTopicName>depth/image_raw</depthImageTopicName>
+    <pointCloudTopicName>depth/points</pointCloudTopicName>
+    <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+    <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+    <pointCloudCutoff>0.4</pointCloudCutoff>
+    <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+    <CxPrime>0.0</CxPrime>
+    <Cx>0.0</Cx>
+    <Cy>0.0</Cy>
+    <focalLength>0</focalLength>
+    <hackBaseline>0</hackBaseline>
+    </plugin>
+</sensor>
+</gazebo>
+
 <!-- Add contact sensors -->
 <gazebo reference="LF_FOOT">
     <sensor name="lf_foot_contact" type="contact">
