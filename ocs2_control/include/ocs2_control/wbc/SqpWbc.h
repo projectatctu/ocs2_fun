@@ -23,10 +23,10 @@ class SqpWbc : public WbcBase {
     }
 
     ocs2_gazebo::JointCommandArray getCommandMessage(scalar_t currentTime, const vector_t &currentState,
-                                                            const vector_t &currentInput, const size_t currentMode,
-                                                            const vector_t &desiredState, const vector_t &desiredInput,
-                                                            const size_t desiredMode,
-                                                            const vector_t &desiredJointAcceleration);
+                                                     const vector_t &currentInput, const size_t currentMode,
+                                                     const vector_t &desiredState, const vector_t &desiredInput,
+                                                     const size_t desiredMode,
+                                                     const vector_t &desiredJointAcceleration);
 
    private:
     void loadSettings(const std::string &configFile);
