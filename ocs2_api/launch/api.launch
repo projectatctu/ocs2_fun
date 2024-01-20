@@ -1,0 +1,12 @@
+<!-- Start API -->
+
+<launch>
+  <!-- launch publish point navigation -->
+  <node name="move_to_point" pkg="ocs2_api" type="move_to_point_node.py" output="screen">
+    <!-- Add any necessary command-line arguments here, e.g., args="-arg1 value1 -arg2 value2" -->
+  </node>
+  <!-- launch 2D Nav Goal-->>
+  <node name="move_to_point_vector" pkg="ocs2_api" type="move_to_point_vector_node.py" output="screen">
+    <!-- Add any necessary command-line arguments here, e.g., args="-arg1 value1 -arg2 value2" -->
+  </node>
+</launch>
