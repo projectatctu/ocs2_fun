@@ -52,7 +52,7 @@ ReferenceGenerator::ReferenceGenerator(const std::string &targetCommandFile, sca
     // Setup ROS subscribers
     observationSubscriber_ = nh.subscribe(observationTopic, 1, &ReferenceGenerator::observationCallback, this);
 
-    const std::string terrainTopic = "/convex_plane_decomposition_ros/filtered_map";
+    const std::string terrainTopic = "/elevation_mapping/elevation_map_raw";
     terrainSubscriber_ = nh.subscribe(terrainTopic, 1, &ReferenceGenerator::terrainCallback, this);
 
     // Setup ROS publishers

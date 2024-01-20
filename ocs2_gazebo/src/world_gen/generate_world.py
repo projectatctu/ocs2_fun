@@ -5,6 +5,8 @@ import rospkg
 
 import argparse
 
+import random
+
 from map_generator import MapGenerator
 from ply_generator import PlyGenerator
 from shapes import Box
@@ -15,7 +17,7 @@ def parse_args():
         "--world_file", type=str, default="custom", help="World file name"
     )
     parser.add_argument(
-        "--type", type=str, default="stairs", choices=['box', 'stairs', 'random_blocks'], help="Type of world to generate"
+        "--type", type=str, default="stairs", choices=['box', 'stairs', 'random_blocks', 'stepping_stones'], help="Type of world to generate"
     )
     
     # World specific arguments
@@ -110,6 +112,29 @@ def generate_random_blocks(params):
     m.add_shape(floor)
     return m
 
+def generate_stepping_stones(params):
+    platform_size = 5
+    x1, y1 = 0, 0
+    platform1 = Box("platform1", *[x1, y1, -0.1], *[platform_size, platform_size, 0.2], visualize=False)
+    
+    x2, y2 = 10 + platform_size/2, 0
+    platform2 = Box("platform2", *[x2, y2, -0.1], *[platform_size, platform_size, 0.2], visualize=False)
+    
+    
+    m = MapGenerator()
+    m.add_shape(platform1)
+    m.add_shape(platform2)
+    for i in range(400):
+        x = random.uniform(x1, x2)
+        y = random.uniform(-platform_size, platform_size)
+        z = 5
+        p = [x, y, -z/2]
+        s = [0.3, 0.3, z]
+        b = Box("b{}".format(i), *p, *s)
+        m.add_shape(b)
+        
+    return m
+
 
 def main():
 
@@ -121,6 +146,8 @@ def main():
         m = generate_box(args)
     elif args.type == 'random_blocks':
         m = generate_random_blocks(args)
+    elif args.type == 'stepping_stones':
+        m = generate_stepping_stones(args)
     else:
         raise ValueError("Unknown type {}".format(args.type))
 

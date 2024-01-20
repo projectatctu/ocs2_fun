@@ -73,3 +73,39 @@ length_in_y_init_submap:                    3.0
 init_submap_height_offset:                  -0.01
 init_submap_variance:                       0.001
 target_frame_init_submap:                   world
+
+# Postprocessing pipeline
+postprocessor_pipeline:
+
+  - name: inpaint
+    type: gridMapCv/InpaintFilter
+    params:
+      input_layer: elevation
+      output_layer: elevation2
+      radius: 0.4
+
+  - name: minus_one
+    type: gridMapFilters/MathExpressionFilter
+    params:
+      output_layer: elevation_minus_one
+      expression: -elevation2
+
+  - name: min_in_radius
+    type: gridMapFilters/MinInRadiusFilter
+    params:
+      input_layer: elevation_minus_one
+      output_layer: elevation_minus_one_min_in_radius
+      radius: 0.3
+    
+  - name: minus_two
+    type: gridMapFilters/MathExpressionFilter
+    params:
+      output_layer: elevation_minus_one_min_in_radius2
+      expression: -elevation_minus_one_min_in_radius
+  
+  - name: smooth
+    type: gridMapFilters/MeanInRadiusFilter
+    params:
+      input_layer: elevation_minus_one_min_in_radius2
+      output_layer: smooth_planar
+      radius: 0.2
