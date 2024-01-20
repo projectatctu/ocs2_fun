@@ -101,7 +101,7 @@
     <sensor name="lf_foot_contact" type="contact">
     <plugin name="lf_contact_plugin" filename="libContactSensor.so"/>
     <contact>
-        <collision>fl_lleg_fixed_joint_lump__LF_FOOT_collision_sensor_collision</collision>
+        <collision>LF_SHANK_fixed_joint_lump__LF_FOOT_collision_sensor_collision_3</collision>
     </contact>
     </sensor>
 </gazebo>
@@ -110,7 +110,7 @@
     <sensor name="lh_foot_contact" type="contact">
     <plugin name="lh_contact_plugin" filename="libContactSensor.so"/>
     <contact>
-        <collision>hl_lleg_fixed_joint_lump__LH_FOOT_collision_sensor_collision</collision>
+        <collision>LH_SHANK_fixed_joint_lump__LH_FOOT_collision_sensor_collision_3</collision>
     </contact>
     </sensor>
 </gazebo>
@@ -119,7 +119,7 @@
     <sensor name="rf_foot_contact" type="contact">
     <plugin name="rf_contact_plugin" filename="libContactSensor.so"/>
     <contact>
-        <collision>fr_lleg_fixed_joint_lump__RF_FOOT_collision_sensor_collision</collision>
+        <collision>RF_SHANK_fixed_joint_lump__RF_FOOT_collision_sensor_collision_3</collision>
     </contact>
     </sensor>
 </gazebo>
@@ -128,7 +128,7 @@
     <sensor name="rh_foot_contact" type="contact">
     <plugin name="rh_contact_plugin" filename="libContactSensor.so"/>
     <contact>
-        <collision>hr_lleg_fixed_joint_lump__RH_FOOT_collision_sensor_collision</collision>
+        <collision>RH_SHANK_fixed_joint_lump__RH_FOOT_collision_sensor_collision_3</collision>
     </contact>
     </sensor>
 </gazebo>
