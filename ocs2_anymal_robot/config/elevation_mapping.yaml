@@ -1,7 +1,31 @@
 input_sources:
-  ground_truth_cloud: # A name to identify the input source
+  front_camera: # A name to identify the input source
     type: pointcloud # Supported types: pointcloud
     topic: /camera/depth/points_downsampled
+    queue_size: 1
+    publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+    sensor_processor:
+      type: perfect
+
+  rear_camera: # A name to identify the input source
+    type: pointcloud # Supported types: pointcloud
+    topic: /rear_camera/depth/points_downsampled
+    queue_size: 1
+    publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+    sensor_processor:
+      type: perfect
+
+  left_camera: # A name to identify the input source
+    type: pointcloud # Supported types: pointcloud
+    topic: /left_camera/depth/points_downsampled
+    queue_size: 1
+    publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+    sensor_processor:
+      type: perfect
+
+  right_camera: # A name to identify the input source
+    type: pointcloud # Supported types: pointcloud
+    topic: /right_camera/depth/points_downsampled
     queue_size: 1
     publish_on_update: true # Whether to publish the elevation map after a callback from this source.
     sensor_processor:
