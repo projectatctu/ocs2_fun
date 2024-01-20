@@ -7,6 +7,7 @@ from geometry_msgs.msg import PoseStamped
 from gazebo_msgs.msg import ModelStates
 from geometry_msgs.msg import Twist
 import numpy as np
+from geometry_msgs.msg import PointStamped
 
 class MoveToPoint:
     def __init__(self):
@@ -16,12 +17,15 @@ class MoveToPoint:
         self.curr_position_x = 0
         self.curr_position_y = 0
         self.curr_orientation = 0
+        #print("here init")
+        self.got_command = False
         #rospy.init_node('tu')
     def new_state_callback(self,data):
         point = data.pose
         self.new_x = point.position.x
         self.new_y = point.position.y
         self.new_orientation = point.orientation.z
+        self.got_command = True
 
     def curr_state_callback(self,data):
         pose = data.pose[-1]
@@ -29,11 +33,17 @@ class MoveToPoint:
         self.curr_position_x = pose.position.x
         self.curr_position_y = pose.position.y
         self.curr_orientation = pose.orientation.z
+        #print("curr_state: ", pose.position.x, "position x", pose.position.y, "position y")
+
+    def new_request_callback(self,data):
+        if data is not None:
+            self.got_command = False
 
     def listener(self):
         #rospy.init_node('listener')
         rospy.Subscriber("/move_base_simple/goal", PoseStamped, self.new_state_callback)
         rospy.Subscriber("/gazebo/model_states", ModelStates, self.curr_state_callback)
+        rospy.Subscriber("/clicked_point", PointStamped, self.new_request_callback)
         #rospy.spin()
 
     def coord_transformation(self,theta,x,y):
@@ -51,57 +61,61 @@ class MoveToPoint:
         last_move = [0, 0, 0]
         while not rospy.is_shutdown():
             self.listener()
-            if self.new_x == 0 and self.new_y == 0:
+            #print(self.got_command,"command 1")
+            if not self.got_command:
                 self.new_x = self.curr_position_x
                 self.new_y = self.curr_position_y
             move = Twist()
             curr_point = np.array([self.curr_position_x, self.curr_position_y])
             end_point = np.array([self.new_x, self.new_y])
-            vector = end_point-curr_point
-            print("--------------------------------")
-            #print(self.new_orientation,"new_orientation")
-            #print(self.curr_orientation,"curr_orientation")
+            vector = end_point - curr_point
+            rotating = True
+            moving = True
 
-            if np.linalg.norm(end_point - curr_point) > 0.15:
-                vector = self.coord_transformation(self.curr_orientation*np.pi, vector[0], vector[1])
+            if np.linalg.norm(end_point - curr_point) > 1:
+                vector = self.coord_transformation(self.curr_orientation * np.pi, vector[0], vector[1])
                 distance = np.linalg.norm(vector)
-                vector = (vector/np.linalg.norm(vector))
-                #last_move[:2] = self.coord_transformation(self.curr_orientation*np.pi, last_move[0], last_move[1])
-                print(last_move,"last_move 1")
-                last_move = self.set_speed(distance, last_move, vector)
-                print(last_move,"last_move 2")
+                #print(distance,"distance")
+                vector = (vector / distance)
                 if vector[0] > 0.9:
-                    move.linear.x = 0.3
+                    move.linear.x = 0.6
                 else:
-                    move.linear.x = vector[0] * 0.3
-                move.linear.y = vector[1] * 0.2
-                """if vector[0] > 0:
-                    last_move[0] = self.acceleratrion(vector, last_move, axis=0, direction=1)
-                elif vector[0] < 0:
-                    last_move[0] = self.acceleratrion(vector, last_move, axis=0, direction=-1)
-                if vector[1] > 0:
-                    last_move[1] = self.acceleratrion(vector, last_move, axis=1, direction=1)
-                elif vector[1] < 0:
-                    last_move[1] = self.acceleratrion(vector, last_move, axis=1, direction=-1)
+                    move.linear.x = vector[0] * 0.4
+                move.linear.y = vector[1] * 0.3
             else:
-                if np.linalg.norm(end_point - curr_point) > 0.05:
+                if np.linalg.norm(vector) > 0.01:
                     vector = self.coord_transformation(self.curr_orientation * np.pi, vector[0], vector[1])
-                    vector = (vector / np.linalg.norm(vector))
-                    last_move = self.stopping(last_move, vector)"""
+                    distance = np.linalg.norm(vector)
+                    move.linear.x = vector[0] * 0.4 * distance
+                    move.linear.y = vector[1] * 0.3 * distance
+                else:
+                    moving = False
 
             #else:
-            if abs(self.new_orientation - self.curr_orientation) > 0.008:
-                if self.new_orientation - self.curr_orientation > 0:
-                    move.angular.z = 0.15
+            rotate = self.new_orientation - self.curr_orientation
+            if abs(rotate) > 1:
+                move.angular.z =  0.2*rotate
+            elif abs(rotate) > 0.5:
+                move.angular.z = 0.3*rotate
+            elif abs(rotate) > 0.2:
+                move.angular.z = 0.4*rotate
+            elif abs(rotate) > 0.01:
+                move.angular.z = rotate
+                """if self.new_orientation - self.curr_orientation > 0:
+                    move.angular.z = 0.3*rotate
                     #last_move[2] = self.acceleratrion([0,0],last_move, axis=2, direction=1)
                 else:
-                    move.angular.z = -0.15
-                    #last_move[2] = self.acceleratrion([0,0],last_move, axis=2, direction=-1)
+                    move.angular.z = -0.3*rotate
+                    #last_move[2] = self.acceleratrion([0,0],last_move, axis=2, direction=-1)"""
+            else:
+                rotating = False
+            if not moving and not rotating:
+                self.got_command = False
             #else:
                 #last_move = self.stopping(last_move, [0,0])
             #move.linear.x, move.linear.y, move.angular.z = last_move
-
-            twist_pub.publish(move)
+            if self.got_command:
+                twist_pub.publish(move)
             rate.sleep()
 
     def acceleratrion(self, vector, last_move, axis, direction):
