@@ -4,8 +4,6 @@ import cv2
 from cv_bridge import CvBridge
 import rospy
 from sensor_msgs.msg import PointCloud2
-import get_new_point
-import get_curr_point
 import numpy as np
 from sensor_msgs import point_cloud2
 import matplotlib.pyplot as plt
@@ -220,6 +218,7 @@ class DepthCamera_img:
                     and cloud_left is not None and cloud_back is not None
                     and rot_fr is not None and rot_fl is not None and rot_r is not None
                     and rot_l is not None and rot_b is not None):
+
                 cloud_points_front_right = list(point_cloud2.read_points(cloud_front_right, skip_nans=True, field_names=("x", "y", "z")))
                 cloud_points_front_left = list(point_cloud2.read_points(cloud_front_left, skip_nans=True, field_names=("x", "y", "z")))
                 cloud_points_right = list(point_cloud2.read_points(cloud_right, skip_nans=True, field_names=("x", "y", "z")))
@@ -233,12 +232,12 @@ class DepthCamera_img:
                 points_array_left = np.array(cloud_points_left)
                 points_array_back = np.array(cloud_points_back)
 
-                points_array_front_right = points_array_front_right.dot(R_front_right.T)
-                points_array_front_left = points_array_front_left.dot(R_front_left.T)
-                points_array_right = points_array_right.dot(R_right)
-                points_array_left = points_array_left.dot(R_left)
-                points_array_back = points_array_back.dot(R_back)
-                points_array_back = self.surface_transform(points_array_back,trans_b)
+                #points_array_front_right = points_array_front_right.dot(R_front_right.T)
+                #points_array_front_left = points_array_front_left.dot(R_front_left.T)
+                #points_array_right = points_array_right.dot(R_right)
+                #points_array_left = points_array_left.dot(R_left)
+                #points_array_back = points_array_back.dot(R_back)
+                #points_array_back = self.surface_transform(points_array_back,trans_b)
 
                 ax.scatter(points_array_front_left[:, 0], points_array_front_left[:, 1], points_array_front_left[:, 2])
                 ax.set_xlabel('X')

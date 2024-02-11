@@ -8,8 +8,6 @@ import numpy as np
 from sensor_msgs import point_cloud2
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
-from gazebo_msgs.msg import ModelStates
-import tf
 
 
 

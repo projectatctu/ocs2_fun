@@ -8,6 +8,7 @@ from gazebo_msgs.msg import ModelStates
 from geometry_msgs.msg import Twist
 import numpy as np
 from geometry_msgs.msg import PointStamped
+from std_msgs.msg import Bool
 
 class MoveToPoint:
     def __init__(self):
@@ -19,6 +20,7 @@ class MoveToPoint:
         self.curr_orientation = 0
         #print("here init")
         self.got_command = False
+        self.detect_obstacle = False
         #rospy.init_node('tu')
     def new_state_callback(self,data):
         point = data.pose
@@ -38,12 +40,15 @@ class MoveToPoint:
     def new_request_callback(self,data):
         if data is not None:
             self.got_command = False
+    def detect_obstacle_callback(self,data):
+        self.detect_obstacle = data.data
 
     def listener(self):
         #rospy.init_node('listener')
         rospy.Subscriber("/move_base_simple/goal", PoseStamped, self.new_state_callback)
         rospy.Subscriber("/gazebo/model_states", ModelStates, self.curr_state_callback)
         rospy.Subscriber("/clicked_point", PointStamped, self.new_request_callback)
+        rospy.Subscriber("/slow_down", Bool, self.detect_obstacle_callback)
         #rospy.spin()
 
     def coord_transformation(self,theta,x,y):
@@ -61,6 +66,9 @@ class MoveToPoint:
         last_move = [0, 0, 0]
         while not rospy.is_shutdown():
             self.listener()
+            max_speed = 0.6
+            if self.detect_obstacle:
+                max_speed /= 2
             #print(self.got_command,"command 1")
             if not self.got_command:
                 self.new_x = self.curr_position_x
@@ -78,7 +86,7 @@ class MoveToPoint:
                 #print(distance,"distance")
                 vector = (vector / distance)
                 if vector[0] > 0.9:
-                    move.linear.x = 0.6
+                    move.linear.x = max_speed
                 else:
                     move.linear.x = vector[0] * 0.4
                 move.linear.y = vector[1] * 0.3
@@ -94,13 +102,13 @@ class MoveToPoint:
             #else:
             rotate = self.new_orientation - self.curr_orientation
             if abs(rotate) > 1:
-                move.angular.z =  0.2*rotate
+                move.angular.z =  0.3*rotate
             elif abs(rotate) > 0.5:
-                move.angular.z = 0.3*rotate
-            elif abs(rotate) > 0.2:
                 move.angular.z = 0.4*rotate
+            elif abs(rotate) > 0.2:
+                move.angular.z = 0.5*rotate
             elif abs(rotate) > 0.01:
-                move.angular.z = rotate
+                move.angular.z = 1.5*rotate
                 """if self.new_orientation - self.curr_orientation > 0:
                     move.angular.z = 0.3*rotate
                     #last_move[2] = self.acceleratrion([0,0],last_move, axis=2, direction=1)
