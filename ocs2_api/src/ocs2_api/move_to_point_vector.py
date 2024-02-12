@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-import sys
-sys.path.append("/opt/ros/noetic/lib/python3/dist-packages")
 
 import rospy
 from geometry_msgs.msg import PoseStamped
