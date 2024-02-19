@@ -77,6 +77,7 @@
       </include>
     </group>
 
+
     <group unless="$(arg blind)">
         <!-- Launch convex decomposition node -->
         <include file="$(find convex_plane_decomposition_ros)/launch/convex_plane_decomposition.launch">
@@ -86,20 +87,9 @@
 
         <!-- Elevation mapping -->
         <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen"/>
-        <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
-      <remap from="~input" to="/camera/depth/points"/>
-        <remap from="~output" to="/camera/depth/points_downsampled"/>
-        <rosparam>
-            filter_field_name: z
-            filter_limit_min: 0.01
-            filter_limit_max: 4.0  <!-- Limit the range of points to forward to 6 meters in viewing direction-->
-            filter_limit_negative: False
-            leaf_size: 0.06  <!-- Limit the density to 5 cm-->
-        </rosparam>
-        </node>
         <node pkg="nodelet" type="nodelet" name="voxel_grid1" args="load pcl/VoxelGrid pcl_manager" output="screen">
-      <remap from="~input" to="/camera_front_right/depth/points"/>
-        <remap from="~output" to="/camera_front_right/depth/points_downsampled"/>
+      <remap from="~input" to="/camera/frontright/depth/points"/>
+        <remap from="~output" to="/depth/camera/frontright/points_downsampled"/>
         <rosparam>
             filter_field_name: z
             filter_limit_min: 0.01
@@ -109,8 +99,8 @@
         </rosparam>
         </node>
         <node pkg="nodelet" type="nodelet" name="voxel_grid2" args="load pcl/VoxelGrid pcl_manager" output="screen">
-      <remap from="~input" to="/camera_front_left/depth/points"/>
-        <remap from="~output" to="/camera_front_left/depth/points_downsampled"/>
+      <remap from="~input" to="/camera/frontleft/depth/points"/>
+        <remap from="~output" to="/depth/camera/frontleft/points_downsampled"/>
         <rosparam>
             filter_field_name: z
             filter_limit_min: 0.01
@@ -120,8 +110,8 @@
         </rosparam>
         </node>
         <node pkg="nodelet" type="nodelet" name="voxel_grid3" args="load pcl/VoxelGrid pcl_manager" output="screen">
-      <remap from="~input" to="/camera_right/depth/points"/>
-        <remap from="~output" to="/camera_right/depth/points_downsampled"/>
+      <remap from="~input" to="/camera/right/depth/points"/>
+        <remap from="~output" to="/depth/camera/right/points_downsampled"/>
         <rosparam>
             filter_field_name: z
             filter_limit_min: 0.01
@@ -131,8 +121,8 @@
         </rosparam>
         </node>
         <node pkg="nodelet" type="nodelet" name="voxel_grid4" args="load pcl/VoxelGrid pcl_manager" output="screen">
-      <remap from="~input" to="/camera_left/depth/points"/>
-        <remap from="~output" to="/camera_left/depth/points_downsampled"/>
+      <remap from="~input" to="/camera/left/depth/points"/>
+        <remap from="~output" to="/depth/camera/right/points_downsampled"/>
         <rosparam>
             filter_field_name: z
             filter_limit_min: 0.01
@@ -143,8 +133,8 @@
         </node>
 
         <node pkg="nodelet" type="nodelet" name="voxel_grid5" args="load pcl/VoxelGrid pcl_manager" output="screen">
-      <remap from="~input" to="/camera_back/depth/points"/>
-         <remap from="~output" to="/camera_back/depth/points_downsampled"/>
+      <remap from="~input" to="/camera/back/depth/points"/>
+         <remap from="~output" to="/depth/camera/back/points_downsampled"/>
         <rosparam>
             filter_field_name: z
             filter_limit_min: 0.01
@@ -175,4 +165,7 @@
         <arg name="z" value="$(arg z)"/>
         <arg name="paused" value="$(arg paused)"/>
     </include>
+    <!-- Launch API -->
+
+    <include file="$(find ocs2_api)/launch/api.launch"/>
 </launch>

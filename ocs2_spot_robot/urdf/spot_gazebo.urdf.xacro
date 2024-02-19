@@ -46,59 +46,6 @@
   <kd value="100.0"/>
 </gazebo>
 
-<!-- Front camera -->
-<!-- Front depth camera -->
-<gazebo reference="camera_link">
-<sensor type="depth" name="realsense_R200">
-    <always_on>true</always_on>
-    <visualize>false</visualize>
-    <update_rate>3</update_rate>
-    <camera>
-        <horizontal_fov>2.0</horizontal_fov>
-        <image>
-            <width>640</width>
-            <height>480</height>
-            <format>R8G8B8</format>
-        </image>
-        <depth_camera></depth_camera>
-        <clip>
-            <near>0.2</near>
-            <far>3</far>
-        </clip>
-        <noise>
-          <type>gaussian</type>
-          <mean>0.0</mean>
-          <stddev>0.05</stddev>
-        </noise>
-    </camera>
-    <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
-    <baseline>0.2</baseline>
-    <alwaysOn>true</alwaysOn>
-    <updateRate>0.0</updateRate>
-    <cameraName>camera</cameraName>
-    <frameName>camera_optical</frameName>
-    <imageTopicName>rgb/image_raw</imageTopicName>
-    <depthImageTopicName>depth/image_raw</depthImageTopicName>
-    <pointCloudTopicName>depth/points</pointCloudTopicName>
-    <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
-    <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
-    <pointCloudCutoff>0.4</pointCloudCutoff>
-    <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
-        <hackBaseline>0.07</hackBaseline>
-        <distortionK1>0.0</distortionK1>
-        <distortionK2>0.0</distortionK2>
-        <distortionK3>0.0</distortionK3>
-        <distortionT1>0.0</distortionT1>
-        <distortionT2>0.0</distortionT2>
-    <CxPrime>0.0</CxPrime>
-    <Cx>0.0</Cx>
-    <Cy>0.0</Cy>
-    <focalLength>0</focalLength>
-    <hackBaseline>0</hackBaseline>
-    </plugin>
-</sensor>
-</gazebo>
-
 <!-- Front right camera -->
 <!-- Front right depth camera -->
 
@@ -129,7 +76,7 @@
     <baseline>0.2</baseline>
     <alwaysOn>true</alwaysOn>
     <updateRate>0.0</updateRate>
-    <cameraName>camera_front_right</cameraName>
+    <cameraName>camera/frontright</cameraName>
     <frameName>camera_optical_front_right</frameName>
     <imageTopicName>rgb/image_raw</imageTopicName>
     <depthImageTopicName>depth/image_raw</depthImageTopicName>
@@ -183,7 +130,7 @@
     <baseline>0.2</baseline>
     <alwaysOn>true</alwaysOn>
     <updateRate>0.0</updateRate>
-    <cameraName>camera_front_left</cameraName>
+    <cameraName>camera/frontleft</cameraName>
     <frameName>camera_optical_front_left</frameName>
     <imageTopicName>rgb/image_raw</imageTopicName>
     <depthImageTopicName>depth/image_raw</depthImageTopicName>
@@ -237,7 +184,7 @@
     <baseline>0.2</baseline>
     <alwaysOn>true</alwaysOn>
     <updateRate>0.0</updateRate>
-    <cameraName>camera_right</cameraName>
+    <cameraName>camera/right</cameraName>
     <frameName>camera_optical_right</frameName>
     <imageTopicName>rgb/image_raw</imageTopicName>
     <depthImageTopicName>depth/image_raw</depthImageTopicName>
@@ -291,7 +238,7 @@
     <baseline>0.2</baseline>
     <alwaysOn>true</alwaysOn>
     <updateRate>0.0</updateRate>
-    <cameraName>camera_left</cameraName>
+    <cameraName>camera/left</cameraName>
     <frameName>camera_optical_left</frameName>
     <imageTopicName>rgb/image_raw</imageTopicName>
     <depthImageTopicName>depth/image_raw</depthImageTopicName>
@@ -345,7 +292,7 @@
     <baseline>0.2</baseline>
     <alwaysOn>true</alwaysOn>
     <updateRate>0.0</updateRate>
-    <cameraName>camera_back</cameraName>
+    <cameraName>camera/back</cameraName>
     <frameName>camera_optical_back</frameName>
     <imageTopicName>rgb/image_raw</imageTopicName>
     <depthImageTopicName>depth/image_raw</depthImageTopicName>
@@ -404,6 +351,14 @@
         <collision>hr_lleg_fixed_joint_lump__RH_FOOT_collision_sensor_collision_1</collision>
     </contact>
     </sensor>
+</gazebo>
+
+<gazebo>
+  <plugin name="joint_states_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+    <jointName>LF_HAA,LF_HFE,LF_KFE,RF_HAA,RF_HFE,RF_KFE,LH_HAA,LH_HFE,LH_KFE,RH_HAA,RH_HFE,RH_KFE</jointName>
+    <updateRate>20.0</updateRate>
+  </plugin>
+
 </gazebo>
 
 <!-- Transmissions -->

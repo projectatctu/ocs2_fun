@@ -247,10 +247,9 @@ tracking_cost_weights
     base_angular_vel_x      10.0;
     base_angular_vel_y      30.0;
     base_angular_vel_z      30.0;
-    base_linear_vel_x       15.0;
-    base_linear_vel_y       15.0;
+    base_linear_vel_x       80.0;
+    base_linear_vel_y       80.0;
     base_linear_vel_z       30.0;
-
     ; Per leg
     joint_position_HAA       2.0;
     joint_position_HFE       2.0;
@@ -268,5 +267,3 @@ tracking_cost_weights
     contact_force_y        0.001;
     contact_force_z        0.001;
 }
-
-
