@@ -18,12 +18,18 @@ class MoveToPoint:
         self.got_command2 = False
         self.rotate = True
         self.detect_obstacle = False
+        self.last_x = 0
+        self.last_y = 0
+        self.last_ang_z = 0
     def new_state_callback(self,data):
         point = data.point
         self.new_x = point.x
         self.new_y = point.y
         self.got_command2 = True
         self.rotate = True
+        self.last_x = 0
+        self.last_y = 0
+        self.last_ang_z = 0
     def curr_state_callback(self,data):
         pose = data.pose[-1]
         self.curr_position_x = pose.position.x
@@ -79,27 +85,47 @@ class MoveToPoint:
                 max_speed = 0.6
                 if self.detect_obstacle:
                     max_speed /= 2
-                if abs(orientation_to_point-current_angle) > 0.15:
-                    if orientation_to_point-current_angle > 0.3:
-                        move.angular.z = 0.3
-                    elif orientation_to_point-current_angle < -0.3:
-                        move.angular.z = -0.3
-                    else:
-                        move.angular.z = orientation_to_point-current_angle
+                if abs(orientation_to_point - current_angle) > 0.5 and np.linalg.norm(vector) > 0.25:
+                    if orientation_to_point - current_angle > 0.5:
+                        self.last_ang_z = self.acceleration(self.last_ang_z,0.5)
+                    if orientation_to_point - current_angle < -0.5:
+                        self.last_ang_z = self.acceleration(self.last_ang_z, -0.5)
+
+                elif abs(orientation_to_point - current_angle) <= 0.5 and abs(orientation_to_point - current_angle) > 0.1 and np.linalg.norm(vector) > 0.25:
+                    self.last_ang_z = self.acceleration(self.last_ang_z, orientation_to_point - current_angle)
+
                 else:
                     self.rotate = False
+                    self.last_ang_z = 0
                 if not self.rotate:
                     norm_vector = vector / norm
                     if norm > 2:
-                        move.linear.x = max_speed*norm_vector[0]
-                        move.linear.y = (max_speed/2)*norm_vector[1]
+                        self.last_x = self.acceleration(self.last_x, max_speed * norm_vector[0])
+                        self.last_y = self.acceleration(self.last_y, (max_speed / 2) * norm_vector[1])
                     elif norm > 1:
-                        move.linear.x = 0.3*norm_vector[0]
-                        move.linear.y = 0.2*norm_vector[1]
+                        self.last_x = self.acceleration(self.last_x, 0.3 * norm_vector[0])
+                        self.last_y = self.acceleration(self.last_y, 0.2 * norm_vector[1])
                     elif norm > 0.05:
-                        move.linear.x = 0.15*vector[0]
-                        move.linear.y = 0.08*vector[1]
+                        if 0.15 * vector[0] < 0.05:
+                            self.last_x = 0.02 * norm_vector[0]
+                        else:
+                            self.last_x = self.acceleration(self.last_x,0.15 * vector[0])
+                        if 0.1 * vector[1] < 0.05:
+                            self.last_y = 0.02 * norm_vector[1]
+                        else:
+                            self.last_y = self.acceleration(self.last_y, 0.08 * vector[1])
                     else:
                         self.got_command2 = False
+                        self.last_x = 0
+                        self.last_y = 0
+                move.linear.x, move.linear.y, move.angular.z = self.last_x, self.last_y, self.last_ang_z
                 twist_pub.publish(move)
             rate.sleep()
+
+    def acceleration(self, last_move, desired_move):
+        new_move = last_move
+        if last_move < desired_move:
+            new_move = last_move + 0.25*(desired_move-last_move)
+        if last_move > desired_move:
+            new_move = last_move - 0.25*(last_move-desired_move)
+        return new_move

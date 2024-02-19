@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Float32
+from ocs2_api.msg import TiltCommand
 import numpy as np
 
 def main():
-    tilt_pub = rospy.Publisher('/tilt', Float32, queue_size=10)
-    tilt_dir_pub = rospy.Publisher('/tilt_dir', Float32, queue_size=10)
+    tilt_pub = rospy.Publisher('/tilt', TiltCommand, queue_size=10)
+    #tilt_dir_pub = rospy.Publisher('/tilt_dir', TiltCommand, queue_size=10)
     rospy.init_node('Tilt')
     tilt = user_input_tilt()
     tilt_dir = user_input_tilt_direction()
@@ -13,12 +13,13 @@ def main():
     tilt = tilt*np.pi/180
     tilt_dir = max(0.0, min(tilt_dir, 360.0))
     tilt_dir = tilt_dir*np.pi/180
-    desired_tilt = Float32()
-    desired_tilt_direction = Float32()
-    desired_tilt.data = tilt
-    desired_tilt_direction.data = tilt_dir
-    tilt_pub.publish(desired_tilt)
-    tilt_dir_pub.publish(desired_tilt_direction)
+    """desired_tilt = Float32()
+    desired_tilt_direction = Float32()"""
+    new_tilt_command = TiltCommand()
+    new_tilt_command.tilt = tilt
+    new_tilt_command.tilt_direction = tilt_dir
+    tilt_pub.publish(new_tilt_command)
+    #tilt_dir_pub.publish(desired_tilt_direction)
 
 def user_input_tilt():
     correct_input = False

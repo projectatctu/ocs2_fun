@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import sys
+sys.path.append("/opt/ros/noetic/lib/python3/dist-packages")
 
 import keyboard
 import rospy
@@ -19,7 +21,6 @@ def keyboard_detection():
 
         if keyboard.is_pressed('h'):
             string.data = 'Tomáš'
-            #print(string.data)
             string_pub.publish(string)
         if keyboard.is_pressed('j'):
             string.data = 'Kuba'

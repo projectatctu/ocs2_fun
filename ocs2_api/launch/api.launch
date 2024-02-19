@@ -3,10 +3,17 @@
 <launch>
   <!-- launch publish point navigation -->
   <node name="move_to_point" pkg="ocs2_api" type="move_to_point_node.py" output="screen">
-    <!-- Add any necessary command-line arguments here, e.g., args="-arg1 value1 -arg2 value2" -->
   </node>
   <!-- launch 2D Nav Goal-->>
   <node name="move_to_point_vector" pkg="ocs2_api" type="move_to_point_vector_node.py" output="screen">
-    <!-- Add any necessary command-line arguments here, e.g., args="-arg1 value1 -arg2 value2" -->
+  </node>
+  <!-- obstacle detection -->
+  <node name="obstacle_detection" pkg="ocs2_api" type="obstacle_detection_node.py" output="screen">
+  </node>
+  <!-- battery status -->
+  <node name="battery_node" pkg="ocs2_api" type="battery_node.py" output="screen">
+  </node>
+  <!-- emergency stop status -->
+  <node name="estop_node" pkg="ocs2_api" type="estop_node.py" output="screen">
   </node>
 </launch>

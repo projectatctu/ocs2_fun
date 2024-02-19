@@ -1,9 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import numpy as np
 import rospy
 from grid_map_msgs.msg import GridMap
-from sensor_msgs.msg import PointCloud2
-import pcl
 import std_msgs.msg
 from sensor_msgs import point_cloud2
 import matplotlib.pyplot as plt
@@ -11,6 +9,7 @@ import sensor_msgs.point_cloud2 as pc2
 from mpl_toolkits import mplot3d
 from gazebo_msgs.msg import ModelStates
 from std_msgs.msg import Bool
+
 
 class PCLFromGrid():
     def __init__(self):
@@ -53,28 +52,18 @@ class PCLFromGrid():
                     header.frame_id = 'pointcloud_from_gridmap'
                     poincloud_msg = pc2.create_cloud_xyz32(header,pointcloud_data_numpy)
                     slow_down = self.process_pointcloud(poincloud_msg)
-                    if slow_down:
-                        print("Slow down")
-                    else:
-                        print("No obstacle")
             detect_obstacle.publish(slow_down)
             rate.sleep()
 
     def process_pointcloud(self, pointcloud_msg):
         cloud_points = list(point_cloud2.read_points(pointcloud_msg, skip_nans=True, field_names=("x", "y", "z")))
         cloud_points = np.array(cloud_points)
-        """print(np.max(cloud_points[:,2]))
-        ax = fig.add_subplot(projection='3d')
-        ax.scatter(cloud_points[:, 0], cloud_points[:, 1], cloud_points[:, 2])
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_zlabel('Z')
-        ax.set_title('Grid map')
-        plt.show()"""
-        height = np.max(cloud_points[:,2])
-        diff = abs(self.body_height-height)
+        height_max = np.max(cloud_points[:,2])
+        height_min = np.min(cloud_points[:,2])
+        diff_max = abs(self.body_height-height_max)
+        diff_min = abs(self.body_height-height_min)
         slow_down = False
-        if abs(diff - self.diff_body_floor_height) > 0.05:
+        if abs(diff_max - self.diff_body_floor_height) > 0.15 or abs(diff_min-self.diff_body_floor_height) > 0.15:
             slow_down = True
         return slow_down
 

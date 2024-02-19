@@ -46,13 +46,12 @@
 
   <depend>rospy</depend>
   <depend>std_msgs</depend>
-
   <!-- Use exec_depend for packages you need at runtime: -->
-
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <!-- Use doc_depend for packages you need only for building documentation: -->
   <!--   <doc_depend>doxygen</doc_depend> -->
+  <!--<buildtool_depend>catkin</buildtool_depend>-->
 
 
   <!-- The export tag contains other, unspecified, tags -->
