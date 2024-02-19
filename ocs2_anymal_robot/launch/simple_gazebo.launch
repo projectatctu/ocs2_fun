@@ -157,4 +157,7 @@
         <arg name="z" value="$(arg z)"/>
         <arg name="paused" value="$(arg paused)"/>
     </include>
+
+        <!-- Launch API -->
+    <include file="$(find ocs2_api)/launch/api.launch"/>
 </launch>
