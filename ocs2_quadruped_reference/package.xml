@@ -61,6 +61,7 @@
   <depend>grid_map_filters_rsl</depend>
   <depend>grid_map_ros</depend>
   <depend>grid_map_core</depend>
+  <depend>joy</depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

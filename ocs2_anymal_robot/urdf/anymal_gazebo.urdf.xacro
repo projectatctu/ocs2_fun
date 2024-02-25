@@ -19,26 +19,29 @@
 
 <!-- Gazebo materials -->
 <gazebo reference="LF_FOOT">
-  <mu1>0.85</mu1>
-  <mu2>0.85</mu2>
+  <mu1>1.85</mu1>
+  <mu2>1.85</mu2>
   <kp value="1000000.0"/>
   <kd value="100.0"/>
 </gazebo>
+
 <gazebo reference="RF_FOOT">
-  <mu1>0.85</mu1>
-  <mu2>0.85</mu2>
+  <mu1>1.85</mu1>
+  <mu2>1.85</mu2>
   <kp value="1000000.0"/>
   <kd value="100.0"/>
 </gazebo>
+
 <gazebo reference="LH_FOOT">
-  <mu1>0.85</mu1>
-  <mu2>0.85</mu2>
+  <mu1>1.85</mu1>
+  <mu2>1.85</mu2>
   <kp value="1000000.0"/>
   <kd value="100.0"/>
 </gazebo>
+
 <gazebo reference="RH_FOOT">
-  <mu1>0.85</mu1>
-  <mu2>0.85</mu2>
+  <mu1>1.85</mu1>
+  <mu2>1.85</mu2>
   <kp value="1000000.0"/>
   <kd value="100.0"/>
 </gazebo>

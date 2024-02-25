@@ -10,7 +10,7 @@ sqpWbc
 
   ; Swing leg kp and kd
   swingKp                 450.0
-  swingKd                 5.0
+  swingKd                 40.0
 
   ; Base position kp and kd
   baseKp                  10.0
@@ -21,8 +21,8 @@ sqpWbc
   eulerKd                 5.5
 
   ; Joint swing leg kp and kd
-  jointSwingKp            200.0
-  jointSwingKd            15.0
+  jointSwingKp            10.0
+  jointSwingKd            3.0
 
   ; Joint stance leg kp and kd
   jointStanceKp            50.0

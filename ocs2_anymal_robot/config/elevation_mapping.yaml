@@ -3,7 +3,7 @@ input_sources:
     type: pointcloud # Supported types: pointcloud
     topic: /camera/depth/points_downsampled
     queue_size: 1
-    publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+    publish_on_update: false # Whether to publish the elevation map after a callback from this source.
     sensor_processor:
       type: perfect
 
@@ -11,7 +11,7 @@ input_sources:
     type: pointcloud # Supported types: pointcloud
     topic: /rear_camera/depth/points_downsampled
     queue_size: 1
-    publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+    publish_on_update: false # Whether to publish the elevation map after a callback from this source.
     sensor_processor:
       type: perfect
 
@@ -19,7 +19,7 @@ input_sources:
     type: pointcloud # Supported types: pointcloud
     topic: /left_camera/depth/points_downsampled
     queue_size: 1
-    publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+    publish_on_update: false # Whether to publish the elevation map after a callback from this source.
     sensor_processor:
       type: perfect
 

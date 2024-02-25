@@ -1,0 +1,30 @@
+[submodule "dependencies/ocs2"]
+	path = dependencies/ocs2
+	url = git@github.com:projectatctu/ocs2.git
+[submodule "dependencies/ocs2_robotic_assets"]
+	path = dependencies/ocs2_robotic_assets
+	url = git@github.com:projectatctu/ocs2_robotic_assets.git
+[submodule "dependencies/pybind11_catkin"]
+	path = dependencies/pybind11_catkin
+	url = git@github.com:wxmerkt/pybind11_catkin.git
+[submodule "dependencies/grid_map"]
+	path = dependencies/grid_map
+	url = git@github.com:ANYbotics/grid_map.git
+[submodule "dependencies/elevation_mapping"]
+	path = dependencies/elevation_mapping
+	url = git@github.com:ANYbotics/elevation_mapping.git
+[submodule "dependencies/elevation_mapping_cupy"]
+	path = dependencies/elevation_mapping_cupy
+	url = git@github.com:leggedrobotics/elevation_mapping_cupy.git
+[submodule "dependencies/kindr"]
+	path = dependencies/kindr
+	url = git@github.com:ANYbotics/kindr.git
+[submodule "dependencies/kindr_ros"]
+	path = dependencies/kindr_ros
+	url = git@github.com:ANYbotics/kindr_ros.git
+[submodule "dependencies/message_logger"]
+	path = dependencies/message_logger
+	url = git@github.com:ANYbotics/message_logger.git
+[submodule "dependencies/qpoases_catkin.git"]
+	path = dependencies/qpoases_catkin.git
+	url = git@github.com:wxmerkt/qpoases_catkin.git

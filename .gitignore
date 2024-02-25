@@ -1,2 +1,3 @@
 __pycache__/
 ocs2_gazebo/launch/worlds/custom/*
+dependencies/*
