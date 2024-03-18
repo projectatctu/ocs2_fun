@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ocs2_spot_robot
+    relative_path: urdf/spot_gazebo.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/anymal_c.srdf
+  CONFIG:
+    author_name: todo
+    author_email: todo@todo.com
+    generated_timestamp: 1710019206

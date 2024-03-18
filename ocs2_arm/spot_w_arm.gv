@@ -1,0 +1,77 @@
+digraph G {
+node [shape=box];
+"base" [label="base"];
+"fl_hip" [label="fl_hip"];
+"fl_uleg" [label="fl_uleg"];
+"fl_lleg" [label="fl_lleg"];
+"LF_FOOT" [label="LF_FOOT"];
+"hl_hip" [label="hl_hip"];
+"hl_uleg" [label="hl_uleg"];
+"hl_lleg" [label="hl_lleg"];
+"LH_FOOT" [label="LH_FOOT"];
+"fr_hip" [label="fr_hip"];
+"fr_uleg" [label="fr_uleg"];
+"fr_lleg" [label="fr_lleg"];
+"RF_FOOT" [label="RF_FOOT"];
+"hr_hip" [label="hr_hip"];
+"hr_uleg" [label="hr_uleg"];
+"hr_lleg" [label="hr_lleg"];
+"RH_FOOT" [label="RH_FOOT"];
+"Part0_1" [label="Part0_1"];
+"Part1_1" [label="Part1_1"];
+"Part2_1" [label="Part2_1"];
+"Part3_1" [label="Part3_1"];
+"Part4_1" [label="Part4_1"];
+"gripper_1" [label="gripper_1"];
+"finger_1" [label="finger_1"];
+"base_inertia" [label="base_inertia"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base" -> "LF_HAA" [label="xyz: 0.29785 0.055 0 \nrpy: 0 -0 0"]
+"LF_HAA" -> "fl_hip"
+"fl_hip" -> "LF_HFE" [label="xyz: 0 0.1108 0 \nrpy: 0 -0 0"]
+"LF_HFE" -> "fl_uleg"
+"fl_uleg" -> "LF_KFE" [label="xyz: 0.025 0 -0.32 \nrpy: 0 -0 0"]
+"LF_KFE" -> "fl_lleg"
+"fl_lleg" -> "LF_FOOT_JOINT" [label="xyz: -0.02 0 -0.37 \nrpy: 0 -0 0"]
+"LF_FOOT_JOINT" -> "LF_FOOT"
+"base" -> "LH_HAA" [label="xyz: -0.29785 0.055 0 \nrpy: 0 -0 0"]
+"LH_HAA" -> "hl_hip"
+"hl_hip" -> "LH_HFE" [label="xyz: 0 0.1108 0 \nrpy: 0 -0 0"]
+"LH_HFE" -> "hl_uleg"
+"hl_uleg" -> "LH_KFE" [label="xyz: 0.025 0 -0.32 \nrpy: 0 -0 0"]
+"LH_KFE" -> "hl_lleg"
+"hl_lleg" -> "LH_FOOT_JOINT" [label="xyz: -0.02 0 -0.37 \nrpy: 0 -0 0"]
+"LH_FOOT_JOINT" -> "LH_FOOT"
+"base" -> "RF_HAA" [label="xyz: 0.29785 -0.055 0 \nrpy: 0 -0 0"]
+"RF_HAA" -> "fr_hip"
+"fr_hip" -> "RF_HFE" [label="xyz: 0 -0.1108 0 \nrpy: 0 -0 0"]
+"RF_HFE" -> "fr_uleg"
+"fr_uleg" -> "RF_KFE" [label="xyz: 0.025 0 -0.32 \nrpy: 0 -0 0"]
+"RF_KFE" -> "fr_lleg"
+"fr_lleg" -> "RF_FOOT_JOINT" [label="xyz: -0.02 0 -0.37 \nrpy: 0 -0 0"]
+"RF_FOOT_JOINT" -> "RF_FOOT"
+"base" -> "RH_HAA" [label="xyz: -0.29785 -0.055 0 \nrpy: 0 -0 0"]
+"RH_HAA" -> "hr_hip"
+"hr_hip" -> "RH_HFE" [label="xyz: 0 -0.1108 0 \nrpy: 0 -0 0"]
+"RH_HFE" -> "hr_uleg"
+"hr_uleg" -> "RH_KFE" [label="xyz: 0.025 0 -0.32 \nrpy: 0 -0 0"]
+"RH_KFE" -> "hr_lleg"
+"hr_lleg" -> "RH_FOOT_JOINT" [label="xyz: -0.02 0 -0.37 \nrpy: 0 -0 0"]
+"RH_FOOT_JOINT" -> "RH_FOOT"
+"base" -> "Rev9" [label="xyz: 0.25 0 0.08 \nrpy: 0 -0 0"]
+"Rev9" -> "Part0_1"
+"Part0_1" -> "Rev8" [label="xyz: 0.015 0 0.05 \nrpy: 0 -0 0"]
+"Rev8" -> "Part1_1"
+"Part1_1" -> "Rev11" [label="xyz: 0.002 0.3125 0 \nrpy: 0 -0 0"]
+"Rev11" -> "Part2_1"
+"Part2_1" -> "Rev3" [label="xyz: -0.018 0.138 -0.0675 \nrpy: 0 -0 0"]
+"Rev3" -> "Part3_1"
+"Part3_1" -> "Rev10" [label="xyz: -0.0475 0.24809 0 \nrpy: 0 -0 0"]
+"Rev10" -> "Part4_1"
+"Part4_1" -> "Rev6" [label="xyz: 0.04 0.081 0 \nrpy: 0 -0 0"]
+"Rev6" -> "gripper_1"
+"gripper_1" -> "Rev7" [label="xyz: -0.86859 0.043915 -0.029 \nrpy: 0 -0 0"]
+"Rev7" -> "finger_1"
+"base" -> "base_inertia_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"base_inertia_joint" -> "base_inertia"
+}

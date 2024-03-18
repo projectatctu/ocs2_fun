@@ -1,0 +1,18 @@
+controller_list:
+  - name: arm_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: True
+    joints:
+      - Rev9
+      - Rev8
+      - Rev11
+      - Rev3
+      - Rev10
+  - name: gripper_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: True
+    joints:
+      - Rev6
+      - Rev7

@@ -1,0 +1,74 @@
+#arm_controller:
+#  type: effort_controllers/JointTrajectoryController
+#  joints:
+#    - Rev9
+#    - Rev8
+#    - Rev11
+#    - Rev3
+#    - Rev10
+#  gains:
+#    Rev9:
+#      p: 100
+#      d: 1
+#      i: 1
+#      i_clamp: 1
+#    Rev8:
+#      p: 100
+#      d: 1
+#      i: 1
+#      i_clamp: 1
+#    Rev11:
+#      p: 100
+#      d: 1
+#      i: 1
+#      i_clamp: 1
+#    Rev3:
+#      p: 100
+#      d: 1
+#      i: 1
+#      i_clamp: 1
+#    Rev10:
+#      p: 100
+#      d: 1
+#      i: 1
+#      i_clamp: 1
+#gripper_controller:
+#  type: effort_controllers/JointTrajectoryController
+#  joints:
+#    - Rev6
+#    - Rev7
+#  gains:
+#    Rev6:
+#      p: 100
+#      d: 1
+#      i: 1
+#      i_clamp: 1
+#    Rev7:
+#      p: 100
+#      d: 1
+#      i: 1
+#      i_clamp: 1
+
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+controller_list:
+  - name: /spot_w_arm/arm_controller
+    action_ns: follow_joint_trajectory
+    default: True
+    type: FollowJointTrajectory
+    joints:
+      - Rev9
+      - Rev8
+      - Rev11
+      - Rev3
+      - Rev10
+  - name: /spot_w_arm/gripper_controller
+    action_ns: follow_joint_trajectory
+    default: True
+    type: FollowJointTrajectory
+    joints:
+      - Rev6
+      - Rev7
+
+
