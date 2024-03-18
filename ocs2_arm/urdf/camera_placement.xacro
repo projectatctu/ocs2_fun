@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="spot_cam_link" params="name" >
+        <link name="${name}">
+            <inertial>
+                <mass value="1e-5" />
+                <inertia ixx="1e-3" ixy="0.0" ixz="0.0" iyy="1e-3" iyz="0.0" izz="1e-3" />
+            </inertial>
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="spot_cam_joint" params="name origin_xyz origin_rpy parent_link child_link" >
+        <joint name="${name}" type="fixed">
+            <parent link="${parent_link}" />
+            <child link="${child_link}" />
+            <origin rpy="${origin_rpy}" xyz="${origin_xyz}" />
+        </joint>
+    </xacro:macro>
+</robot>

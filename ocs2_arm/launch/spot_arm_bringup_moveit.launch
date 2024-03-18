@@ -1,0 +1,48 @@
+<launch>
+
+    <param name="robot_description" textfile="$(find ocs2_arm)/urdf/spot_w_arm.urdf" />
+
+    <arg name="x" default="0.0"/>
+    <arg name="y" default="0.0"/>
+    <arg name="z" default="0.8"/>
+
+    <include file = "$(find gazebo_ros)/launch/empty_world.launch" >
+        <arg name="use_sim_time" value="true" />
+        <arg name="debug" value="false" />
+        <arg name="gui" value="true" />
+        <arg name="paused" value="false" />
+    </include>
+
+
+    <node name="spawn_the_robot" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model spot_w_arm -x $(arg x) -y $(arg y) -z $(arg z)" />
+
+    <node name="controller_spawner" pkg="controller_manager" type="spawner"
+            output="screen" respawn="false" ns="/spot_w_arm"
+            args="joint_state_controller
+            arm_controller
+            gripper_controller
+            --timeout 60">
+    </node>
+
+    <rosparam command="load" file="$(find ocs2_arm)/config/spot_arm_joint_states.yaml"/>
+    <rosparam command="load" file="$(find ocs2_arm)/config/spot_arm_trajectory_control.yaml"/>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+            output="screen" respawn="false">
+        <remap from="/joint_states" to="/spot_w_arm/joint_states" />
+    </node>
+
+
+    <include file= "$(find ocs2_arm)/launch/planning_context.launch" >
+        <arg name="load_robot_description" value="false" />
+    </include>
+
+    <include file= "$(find ocs2_arm)/launch/move_group.launch" >
+        <arg name="publish_monitored_planning_scene" value="true" />
+    </include>
+
+    <include file= "$(find ocs2_arm)/launch/moveit_rviz.launch" >
+        <arg name="rviz_config" value="$(find ocs2_arm)/launch/moveit.rviz" />
+    </include>
+
+</launch>

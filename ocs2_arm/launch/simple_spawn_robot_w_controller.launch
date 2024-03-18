@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Associate to the robot description parameter, the urdf file that model the robot -->
+    <param name="robot_description" command = "$(find xacro)/xacro --inorder $(find ocs2_arm)/urdf/spot_w_arm.urdf" />
+
+    <!-- Set the position in empy world -->
+    <arg name="x" default="0" />
+    <arg name="y" default="0" />
+    <arg name="z" default="0.7" />
+
+    <!-- Launch Gazebo world in paused -->
+    <include file = "$(find gazebo_ros)/launch/empty_world.launch" >
+        <arg name="use_sim_time" value="true"/>
+        <arg name="debug" value="false"/>
+        <arg name="gui" value="true"/>
+        <arg name="paused" value="true"/>
+    </include>
+
+    <!-- Spawn the robot using the package gazebo_ros -->
+    <node name="spawn_the_robot" pkg="gazebo_ros" type="spawn_model" output="screen"
+        args="-urdf -param robot_description -model spot_w_arm -x $(arg x) -y $(arg y) -z $(arg z)" />
+
+    <!-- Load the controllers -->
+    <rosparam command="load" file="$(find ocs2_arm)/config/simple_joints_controllers.yaml"/>
+
+    <!-- Load the node controller manager -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" output="screen" respawn="false" ns="/spot_w_arm"
+        args="joint_state_controller
+            LF_HAA_position_controller
+            LH_HAA_position_controller
+            RF_HAA_position_controller
+            RH_HAA_position_controller
+            LF_HFE_position_controller
+            LH_HFE_position_controller
+            RF_HFE_position_controller
+            RH_HFE_position_controller
+            LF_KFE_position_controller
+            LH_KFE_position_controller
+            RF_KFE_position_controller
+            RH_KFE_position_controller
+            Rev9_position_controller
+            Rev8_position_controller
+            Rev11_position_controller
+            Rev3_position_controller
+            Rev10_position_controller
+            Rev6_position_controller
+            Rev7_position_controller
+            --timeout 60">
+    </node>
+
+    <!-- Convert joint states to TF transform for rviz and rqt -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+            output="screen" respawn="false">
+            <remap from="/joint_states" to="/spot_w_arm/joint_states"/>
+    </node>
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <remap from="joint_states" to="/spot_w_arm/joint_states"/>
+
+    <include file= "$(find ocs2_arm)/launch/planning_context.launch" >
+        <arg name="load_robot_description" value="false" />
+    </include>
+
+    <include file= "$(find ocs2_arm)/launch/move_group.launch" >
+        <arg name="publish_monitored_planning_scene" value="true" />
+    </include>
+
+    <include file= "$(find ocs2_arm)/launch/moveit_rviz.launch" >
+        <arg name="rviz_config" value="$(find ocs2_arm)/launch/moveit.rviz" />
+    </include>
+
+    <node name="rqt_reconfigure" pkg="rqt_gui" type="rqt_gui"/>
+
+</launch>

@@ -63,12 +63,12 @@ def generate_stairs(params):
 
     # Generate stairs
     m = MapGenerator()
-    floor = Box("floor", *[0, 0, -0.1], *[10, 10, 0.2], visualize=False)
+    floor = Box("floor", *[0, 0, -0.1], *[25, 25, 0.2], visualize=False)
     m.add_shape(floor)
     for i in range(STEPS):
         add = 0.0
         if i == (STEPS - 1):
-            add = 1.0
+            add = 10.0
         p = [i * STEP_DEPTH + add / 2, 0, i * STEP_HEIGHT + STEP_HEIGHT / 2]
         s = [(STEP_DEPTH + add), STEP_WIDTH, STEP_HEIGHT]
         b = Box("s{}".format(i), *p, *s)
@@ -79,8 +79,8 @@ def generate_stairs(params):
 def generate_box(params):
     BOX_SIZE = params.box_size
     m = MapGenerator()
-    floor = Box("floor", *[0, 0, -0.1], *[5, 5, 0.2], visualize=False)
-    box = Box("box", *[1, 0, BOX_SIZE/2], *[3.0, 3.0, BOX_SIZE])
+    floor = Box("floor", *[0.6, 0, -0.1], *[25, 25, 0.2], visualize=False)
+    box = Box("box", *[0, 0, BOX_SIZE/2], *[1.2, 3, BOX_SIZE])
     m.add_shape(floor)
     m.add_shape(box)
     return m

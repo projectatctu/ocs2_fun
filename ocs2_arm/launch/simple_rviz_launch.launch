@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Associate to the robot description parameter, the urdf file that model the robot -->
+    <param name="robot_description" command = "$(find xacro)/xacro --inorder $(find ocs2_arm)/urdf/spot_w_arm.urdf" />
+
+    <!-- Read the joint value -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <!-- Visualization in Rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args= "-d $(find ocs2_arm)/config/simple_config.rviz" />
+
+    <!-- Visualization of the use_gui for playing with joints -->
+    <arg name="use_gui" default="true" />
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen" unless="$(arg use_gui)" />
+    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" output="screen" if="$(arg use_gui)" />
+
+
+
+</launch>

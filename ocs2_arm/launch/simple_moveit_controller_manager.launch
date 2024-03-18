@@ -1,0 +1,10 @@
+<!-- Start moveit -->
+
+<launch>
+  <arg name = "moveit_controller_manager" default= "moveit_simple_controller_manager/MoveItSimpleControllerManager" />
+  <param name = "moveit_controller_manager" value = "$(arg moveit_controller_manager)" />
+
+  <!-- load ros_controllers to the param server -->
+  <rosparam file ="$(find ocs2_arm)/config/ros_controllers.yaml" />
+
+</launch>

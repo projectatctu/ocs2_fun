@@ -1,0 +1,46 @@
+spot_w_arm:
+    arm_controller:
+        type: effort_controllers/JointTrajectoryController
+        joints:
+            - Rev9
+            - Rev8
+            - Rev11
+            - Rev3
+            - Rev10
+        constraints:
+            goal_time: 1.0
+            stopped_velocity_tolerance: 0.02
+            Rev9: {trajectory: 0.05, goal: 0.02}
+            Rev8: {trajectory: 0.05, goal: 0.02}
+            Rev11: {trajectory: 0.05, goal: 0.02}
+            Rev3: {trajectory: 0.05, goal: 0.02}
+            Rev10: {trajectory: 0.05, goal: 0.02}
+        gains:
+            Rev9: {p: 30000.0, d: 10.0, i: 5.0, i_clamp: 1}
+            Rev8: {p: 2000.0, d: 10.0, i: 5.0, i_clamp: 1}
+            Rev11: {p: 2000.0, d: 10.0, i: 5.0, i_clamp: 1}
+            Rev3: {p: 2000.0, d: 10.0, i: 5.0, i_clamp: 1}
+            Rev10: {p: 2000.0, d: 10.0, i: 5.0, i_clamp: 1}
+        state_publish_rate: 25
+        action_monitor_rate: 30
+        stop_trajectory_duration: 0
+
+    gripper_controller:
+        type: effort_controllers/JointTrajectoryController
+        joints:
+            - Rev6
+            - Rev7
+
+        constraints:
+            goal_time: 1.0
+            stopped_velocity_tolerance: 0.02
+            Rev6: { trajectory: 0.05, goal: 0.02 }
+            Rev7: { trajectory: 0.05, goal: 0.02 }
+
+        gains:
+            Rev6: { p: 30000.0, d: 10.0, i: 5.0, i_clamp: 1 }
+            Rev7: { p: 2000.0, d: 10.0, i: 5.0, i_clamp: 1 }
+
+        state_publish_rate: 25
+        action_monitor_rate: 30
+        stop_trajectory_duration: 0

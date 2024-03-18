@@ -1,0 +1,21 @@
+spot_w_arm:
+  spot_arm_controller:
+    type: effort_controllers/JointTrajectoryController
+    joints:
+      - Rev9
+      - Rev8
+      - Rev11
+      - Rev3
+      - Rev10
+
+  spot_gripper_controller:
+    type: effort_controllers/JointTrajectoryController
+    joints:
+      - Rev6
+      - Rev7
+
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+
