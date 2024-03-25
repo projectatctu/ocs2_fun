@@ -3,7 +3,7 @@
     <xacro:macro name="transmission" params="name joint actuator" >
         <transmission name="${name}">
             <type>transmission_interface/SimpleTransmission</type>
-            <joint name = "${joint}" >
+            <joint name="${joint}" >
                 <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             </joint>
             <actuator name="${actuator}" >
